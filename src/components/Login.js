@@ -33,7 +33,7 @@ class Login extends Component
 				</Form>
 			</Segment>
 			<Message textAlign='center'>
-				New to ReFree? <Link to="/">Create an account</Link>
+				New to ReFree? <Link to="/signup">Create an account</Link>
 			</Message>
 			</div>	
 		);
