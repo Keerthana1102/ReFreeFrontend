@@ -1,6 +1,10 @@
 import React , { Component } from 'react';
 import { Icon, Button, Segment, Form, Message } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+
+axios.defaults.xsrfCookieName = 'frontend_csrftoken'
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 class Login extends Component
 {
@@ -9,7 +13,24 @@ class Login extends Component
     super();
     this.state = {
       isLoggedIn : false,
+      username : "",
+      password : "",
     }
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleUsernameChange = event => {
+    this.setState({ username : event.target.value })
+  }
+  handlePasswordChange = event => {
+    this.setState({ password : event.target.value })
+  }
+  handleSubmit = event => {
+    event.preventDefault()
+    let formData = { username : this.state.username , password : this.state.password }
+    console.log(formData);
+	  axios({ url:'http://127.0.0.1:8000/login' , method:'POST' , data:formData , withCredentials:true })
+	  .then(response=>{console.log(response);})
+	  .catch(error=>{console.log(error);})
   }
   render()
   {
@@ -22,14 +43,14 @@ class Login extends Component
         </div>
         <h2 style={{textAlign:'center'}}>Sign In to ReFree</h2>
         <Segment>
-          <Form>
+          <Form onSubmit={event => this.handleSubmit(event)}>
             <Form.Field>
               <label>Username</label>
-              <input type='text'  />
+              <input type='text' value= {this.state.username} onChange={this.handleUsernameChange }  />
             </Form.Field>
             <Form.Field>
                <label>Password</label>
-               <input type='password' />
+               <input type='password' value= {this.state.password} onChange={this.handlePasswordChange} />
             </Form.Field>
             <div style={{textAlign:'center'}}>
               <Button fluid color='green' type='submit'>Sign In</Button>
