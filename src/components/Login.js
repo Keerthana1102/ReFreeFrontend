@@ -15,6 +15,7 @@ class Login extends Component
       isLoggedIn : false,
       username : "",
       password : "",
+      isError : false ,
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -26,11 +27,18 @@ class Login extends Component
   }
   handleSubmit = event => {
     event.preventDefault()
-    let formData = { username : this.state.username , password : this.state.password }
-    console.log(formData);
-	  axios({ url:'http://127.0.0.1:8000/login' , method:'POST' , data:formData , withCredentials:true })
-	  .then(response=>{console.log(response);})
-	  .catch(error=>{console.log(error);})
+    if((this.state.username==="") || (this.state.password === ""))
+    {
+      this.setState({isError : true})
+    }
+    else
+    {
+      let formData = { username : this.state.username , password : this.state.password }
+      console.log(formData);
+      axios({ url:'http://127.0.0.1:8000/users/loginview' , method:'POST' , data:formData , withCredentials:true })
+      .then(response=>{console.log(response);})
+      .catch(error=>{console.log(error);})
+    }
   }
   render()
   {
@@ -44,11 +52,11 @@ class Login extends Component
         <h2 style={{textAlign:'center'}}>Sign In to ReFree</h2>
         <Segment>
           <Form onSubmit={event => this.handleSubmit(event)}>
-            <Form.Field>
+            <Form.Field required>
               <label>Username</label>
               <input type='text' value= {this.state.username} onChange={this.handleUsernameChange }  />
             </Form.Field>
-            <Form.Field>
+            <Form.Field required>
                <label>Password</label>
                <input type='password' value= {this.state.password} onChange={this.handlePasswordChange} />
             </Form.Field>
@@ -56,6 +64,7 @@ class Login extends Component
               <Button fluid color='green' type='submit'>Sign In</Button>
             </div>
           </Form>
+         {this.state.isError && <Message negative><Message.Header>Please fill all required fields</Message.Header></Message>}
         </Segment>
         <Message textAlign='center'>
           New to ReFree? <Link to="/signup">Create an account</Link>
