@@ -35,7 +35,7 @@ class Login extends Component
     {
       let formData = { username : this.state.username , password : this.state.password }
       console.log(formData);
-      axios({ url:'http://127.0.0.1:8000/users/loginview' , method:'POST' , data:formData , withCredentials:true })
+      axios({ url:'http://127.0.0.1:8000/users/loginview/' , method:'POST' , data:formData , withCredentials:true })
       .then(response=>{console.log(response);})
       .catch(error=>{console.log(error);})
     }

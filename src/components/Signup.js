@@ -64,7 +64,7 @@ class Signup extends Component
     {
       let formData = { username : this.state.username , firstname:this.state.firstname , lastname:this.state.lastname , email:this.state.email , phone_number:this.state.phone_number , password : this.state.password }
     console.log(formData);
-          axios({ url:'http://127.0.0.1:8000/users/signup' , method:'POST' , data:formData , withCredentials:true })
+          axios({ url:'http://127.0.0.1:8000/users/signupview/' , method:'POST' , data:formData , withCredentials:true })
           .then(response=>{console.log(response);})
           .catch(error=>{console.log(error);})
     }
