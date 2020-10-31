@@ -15,7 +15,20 @@ class Done extends Component
       isLoggedIn : false,
       isError : false ,
     }
-    
+  }
+  async componentDidMount()
+  {
+    const re = await axios({url:'http://127.0.0.1:8000/users/currentuser', method:'get' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/error"})
+    console.log(re);
+    const js = await re.data;
+    this.setState({userId:js.userId});
+    console.log(this.state.userId);
+    if(this.state.userId==0) {
+        window.location.href="http://127.0.0.1:3000/";
+    }
+    else {
+      this.setState({isLoggedIn:true});
+    }
   }
   render()
   {

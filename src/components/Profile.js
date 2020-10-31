@@ -33,7 +33,7 @@ class Profile extends Component
   }
   async componentDidMount()
   {
-    const re = await axios({url:'http://127.0.0.1:8000/users/currentuser', method:'get' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+    const re = await axios({url:'http://127.0.0.1:8000/users/currentuser', method:'get' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/error"})
     console.log(re);
      const js = await re.data;
      this.setState({userId:js.userId});
