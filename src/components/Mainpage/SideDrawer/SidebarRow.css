@@ -1,0 +1,37 @@
+.sidebarrow {
+    padding: 10px 20px;
+}
+.sidebarrow_title {
+
+    flex: 1;
+    margin-left: 20px;
+    font-size: 20px;
+    font-weight: 500;
+    color:white;
+    text-decoration: underline;
+    text-decoration-color:black;   
+    
+}
+    
+.sidebarrow:hover {
+    background-color: lightgray;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: lightgray;
+    
+}
+.sidebarrow:hover > .sidebarrow_title {
+    font-weight: bold;
+    text-decoration: underline;
+    text-decoration-color: lightgray;
+}
+.sidebarrow.selected {
+    background-color: lightgray;
+    
+}
+.sidebarrow.selected > .sidebarrow_title {
+    font-weight: bold;
+    text-decoration: underline;
+    text-decoration-color: lightgray;
+
+}

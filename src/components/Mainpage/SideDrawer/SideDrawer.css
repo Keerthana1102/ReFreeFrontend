@@ -1,0 +1,9 @@
+.Sidebar {
+  flex: 0.2;
+  height: 100%;
+  width: 300px;
+  top:44px;
+  position: fixed;
+  right: 0;
+  background-color :black;
+}

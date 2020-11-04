@@ -1,0 +1,19 @@
+.designcard {
+    margin-bottom: 40px;
+    width: 270px;
+   
+}
+.designcard_thumbnail {
+    height : 140px;
+    width: 250px;
+}
+.designcard_text {
+    margin-left: 50px;
+    background-color: lightgray;
+    text-decoration: none;
+}
+.designcard_text:hover {
+    background-color: white;
+    cursor: pointer;
+   
+}

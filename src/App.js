@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-
+import Mainpage from './components/Mainpage/Mainpage'
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Login from './components/Login';
@@ -20,6 +20,7 @@ function App() {
                 <Route path="/profile" component={Profile} />
 	  	<Route path="/done" component={Done} />
 	  	<Route path="/error" component={Error} />
+		  <Route path = "/Trending" component = {Mainpage} />
 	  </Switch>
 	</div>
     </BrowserRouter>
