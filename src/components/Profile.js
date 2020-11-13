@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import { Icon, Grid, Header, Button, Divider, Segment, Form, Message  , Dropdown} from 'semantic-ui-react';
+import { Icon,Card, Grid, Header, Button, Divider, Segment, Form, Message, Label, Dropdown} from 'semantic-ui-react';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import CKEditor from 'ckeditor4-react';
@@ -27,6 +27,7 @@ class Profile extends Component
       data : [],
       redirect : false,
       failed : false,
+      projects :[],
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onEditorChange = this.onEditorChange.bind(this);
@@ -55,6 +56,12 @@ class Profile extends Component
      this.setState({phone_number:this.state.data.phone_number})
      this.setState({workExperience:this.state.data.workExperience})
      this.setState({about:this.state.data.about})
+
+     const projectdata = await axios({url:'http://127.0.0.1:8000/projects/userprojects' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location="http://127.0.0.1:3000/"})
+     console.log(projectdata);
+     const projectjson = await projectdata.data;
+     this.setState({projects:projectjson})
+
   }
 
 
@@ -228,6 +235,25 @@ class Profile extends Component
        <div style={{padding:'5% 0px 0px 0px', textAlign:'center'}}>
        <Button color='green' type="submit" icon >Save Changes</Button></div>
      </Form>
+     <br />	    
+     <Header as='h2'>
+       <Icon name='folder' />
+       <Header.Content>My Projects
+       <Header.Subheader>View list of projects and click to edit</Header.Subheader>
+       </Header.Content>
+     </Header>
+     <br />
+     <br />
+     <Card.Group>
+       {this.state.projects.map(el => (
+       <Card href='http://127.0.0.1:3000/'>
+         <Card.Content>  <Card.Header>{el.name}</Card.Header>
+         <Card.Meta>Project Number {el.id}</Card.Meta>
+         <Card.Description> {el.description} </Card.Description>
+         </Card.Content>
+       </Card>
+       ))}
+     </Card.Group>
    </div>
    {this.renderRedirect()}
   </div>
