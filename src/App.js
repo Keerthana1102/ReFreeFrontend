@@ -9,6 +9,7 @@ import Signup from './components/Signup';
 import Profile from './components/Profile';
 import Done from './components/Done';
 import Error from './components/Error';
+import Individualuser from './components/Individualuser';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
 	  	<Route path="/done" component={Done} />
 	  	<Route path="/error" component={Error} />
 		<Route path = "/Trending" component = {Mainpage} />
+	  	<Route path="/individualuser" component={Individualuser} />
 	  </Switch>
 	</div>
     </BrowserRouter>

@@ -49,7 +49,6 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
             </div>)
             }
             </div>
-            <Projectpage user = {"1"}></Projectpage>
 
             </div>
             
