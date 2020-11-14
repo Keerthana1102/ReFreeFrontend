@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
-class Profile extends Component
+class Individualuser extends Component
 {
   constructor()
   {
@@ -29,9 +29,7 @@ class Profile extends Component
       failed : false,
       projects :[],
     }
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.onEditorChange = this.onEditorChange.bind(this);
-  }
+   }
   async componentDidMount()
   {
     const re = await axios({url:'http://127.0.0.1:8000/users/currentuser', method:'get' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/error"})
@@ -64,55 +62,6 @@ class Profile extends Component
 
   }
 
-
-
-  onEditorChange(evt){
-    this.setState({
-      about:evt.editor.getData()
-    });
-  }
-  handleAboutChange = event => {
-    this.setState({
-      about: event.target.value
-    })
-  }
-  handleFirstnameChange = event => {
-    this.setState({
-      first_name: event.target.value
-    })
-  }
-  handleLastnameChange = event => {
-    this.setState({
-      last_name: event.target.value
-    })
- }
-  handlePhonenumberChange = event => {
-    this.setState({
-      phone_number: event.target.value
-    })
-  }
-
-  handleWorkexperienceChange=(event , data) => {
-
-    let  opt= data.value;
-    this.setState({workExperience:opt});
-  }
-
-  handleSubmit = async(event) => {
-    event.preventDefault()
-    const projectId = this.state.userId;
-    let formData = { username: this.state.username, first_name: this.state.first_name , last_name:this.state.last_name , email:this.state.email  , about:this.state.about , workExperience:this.state.workExperience , password : this.state.data.password }
-    await axios({url:`http://127.0.0.1:8000/users/${this.state.userId}/` ,method:'PUT', data:formData , withCredentials:true} ).then(response=>{this.setState({redirect:true}); }).catch(error=>{this.setState({failed:true}); })
-  }
-
-  renderRedirect= () => {
-    if(this.state.redirect==true) {
-      return <Redirect to={{pathname:'/done'  }}/>
-    }
-    else if(this.state.failed==true) {
-      return <Redirect to={{pathname:'/error'  }}/>
-    }
- }
   render()
   {    
     const workOptions = [
@@ -154,36 +103,36 @@ class Profile extends Component
         <div style={{margin:'auto' , paddingLeft:'10%' , paddingRight:'10%'}}>
           <Header as='h2'>
             <Icon name='user' />
-            <Header.Content>My Profile 
-            <Header.Subheader>Edit your profile and save changes</Header.Subheader>
+            <Header.Content>{this.state.first_name} 's Profile
+            <Header.Subheader>View user profile</Header.Subheader>
             </Header.Content>
          </Header>
         </div>
         <br/>
         <div style={{margin:'auto', paddingRight:'10%' , paddingLeft:'10%' }}>
-        <Form onSubmit={event => this.handleSubmit(event)}>
-          <Divider horizontal>
+          <Form>
+	   <Divider horizontal>
              <Header as='h4'>
                 <Icon name='user circle' />
                 Personal Details
               </Header>
           </Divider>
-
-          <Form.Field >
-            <label >Username</label>
-            <input type="text" value={this.state.username}  readOnly/>
-          </Form.Field>
+	  <Form.Field>
+            <label style={{fontWegiht:'bold'}}>Username</label>
+            <input type="text" value={this.state.username} readOnly/>
+	  </Form.Field>
+          
           <div style={{display:'grid' , gridTemplateColumns:'auto auto'}}>
             <div style={{paddingRight:'2%'}}>
               <Form.Field >
                 <label style={{fontWeight:'bold'}}>Firstname</label>
-                <input type="text" value={this.state.first_name}  onChange={event => this.handleFirstnameChange(event)} />
+                <input type="text" value={this.state.first_name} readOnly />
               </Form.Field>
             </div>
             <div style={{ paddingLeft:'2%'}}>
               <Form.Field >
                 <label>Lastname</label>
-	        <input type="text" value={this.state.last_name}  onChange={event => this.handleLastnameChange(event)}/>
+	        <input type="text" value={this.state.last_name} readOnly/>
               </Form.Field>
 	   </div>
           </div>
@@ -223,23 +172,19 @@ class Profile extends Component
 
           <Form.Field >
             <label>About</label>
-            <CKEditor data={this.state.about} type="inline"  onChange={this.onEditorChange}/>
-            <textarea style={{display:'none'}} value={this.state.about}  readOnly onChange={this.handleAboutChange}/>
+            <CKEditor data={this.state.data.description} type="inline" readOnly={true} />
         </Form.Field>
 
         <Form.Field >
           <label>Work Experience</label>
-          <Dropdown name="workExperience" value={this.state.workExperience}  fluid search selection options = {workOptions} onChange={(event,data) =>this.handleWorkexperienceChange(event , data)}/>
+          <Dropdown name="workExperience" value={this.state.workExperience}  fluid search selection options = {workOptions} disabled/>
        </Form.Field>
-
-       <div style={{padding:'5% 0px 0px 0px', textAlign:'center'}}>
-       <Button color='green' type="submit" icon >Save Changes</Button></div>
      </Form>
      <br />	    
      <Header as='h2'>
        <Icon name='folder' />
-       <Header.Content>My Projects
-       <Header.Subheader>View list of projects and click to edit</Header.Subheader>
+       <Header.Content>{this.state.first_name} 's Projects
+       <Header.Subheader>View list of projects</Header.Subheader>
        </Header.Content>
      </Header>
      <br />
@@ -255,7 +200,6 @@ class Profile extends Component
        ))}
      </Card.Group>
    </div>
-   {this.renderRedirect()}
   </div>
   );
   }
@@ -281,5 +225,5 @@ EditorPreview.defaultProps = {
 EditorPreview.propTypes = {
     data: PropTypes.string
 };
-export default Profile;
+export default Individualuser;
  
