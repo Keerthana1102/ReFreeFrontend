@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import './Projectpage.css'
 class projectpage extends Component {
    
   constructor()
@@ -25,10 +26,13 @@ class projectpage extends Component {
       console.log(this.state.components);
     return (
         this.state.components.map((cmp)=>
-        <div>
-            <h1>{cmp.description}</h1>
-            <h1>Welcome</h1>
+        <div className = "component">
+            <img src = {cmp.upload}></img>
+            <div className = "description">
+            <p>{cmp.description}</p>
+            </div>
         </div>
+      
         
 
         )

@@ -1,0 +1,22 @@
+.component{
+    display: flex;
+    
+}
+img {
+    flex: 0.5;
+    height: 400px;
+    width: 40%;
+    margin-bottom: 20px;
+    margin-right: 50px;
+}
+.description{
+    flex: 0.5;
+    
+    background-color: white;
+    margin-bottom: 20px;
+    margin-right: 50px;
+}
+div p{
+    text-align: center;
+
+}

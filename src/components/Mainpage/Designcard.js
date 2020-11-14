@@ -6,10 +6,6 @@ function CardExampleCard ({projectname,description,designername,likes}){
     return(
   <Card.Group>
       <Card>
-      <Link to = {{
-        pathname: "/Projectpage",
-        state : {designername}
-      }}>
     <Card.Content>
       <Card.Header>{projectname}</Card.Header>
       <Card.Description>
@@ -27,7 +23,7 @@ function CardExampleCard ({projectname,description,designername,likes}){
         {likes}
       </a>
     </Card.Content>
-    </Link>
+  
     </Card>
     
    </Card.Group>
