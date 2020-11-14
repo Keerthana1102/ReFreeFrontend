@@ -152,15 +152,16 @@ class Profile extends Component
         <br/>
         <br/>
         <div style={{margin:'auto' , paddingLeft:'10%' , paddingRight:'10%'}}>
+          <Grid stackable columns={2} divided>
+          <Grid.Row>
+          <Grid.Column>
           <Header as='h2'>
             <Icon name='user' />
             <Header.Content>My Profile 
             <Header.Subheader>Edit your profile and save changes</Header.Subheader>
             </Header.Content>
          </Header>
-        </div>
         <br/>
-        <div style={{margin:'auto', paddingRight:'10%' , paddingLeft:'10%' }}>
         <Form onSubmit={event => this.handleSubmit(event)}>
           <Divider horizontal>
              <Header as='h4'>
@@ -235,7 +236,8 @@ class Profile extends Component
        <div style={{padding:'5% 0px 0px 0px', textAlign:'center'}}>
        <Button color='green' type="submit" icon >Save Changes</Button></div>
      </Form>
-     <br />	    
+     </Grid.Column>
+     <Grid.Column> 
      <Header as='h2'>
        <Icon name='folder' />
        <Header.Content>My Projects
@@ -254,6 +256,9 @@ class Profile extends Component
        </Card>
        ))}
      </Card.Group>
+     </Grid.Column>
+     </Grid.Row>
+     </Grid>
    </div>
    {this.renderRedirect()}
   </div>

@@ -101,15 +101,16 @@ class Individualuser extends Component
         <br/>
         <br/>
         <div style={{margin:'auto' , paddingLeft:'10%' , paddingRight:'10%'}}>
+          <Grid stackable columns={2} divided>
+	  <Grid.Row>
+	  <Grid.Column>
           <Header as='h2'>
             <Icon name='user' />
             <Header.Content>{this.state.first_name} 's Profile
             <Header.Subheader>View user profile</Header.Subheader>
             </Header.Content>
          </Header>
-        </div>
-        <br/>
-        <div style={{margin:'auto', paddingRight:'10%' , paddingLeft:'10%' }}>
+         <br/>
           <Form>
 	   <Divider horizontal>
              <Header as='h4'>
@@ -180,7 +181,8 @@ class Individualuser extends Component
           <Dropdown name="workExperience" value={this.state.workExperience}  fluid search selection options = {workOptions} disabled/>
        </Form.Field>
      </Form>
-     <br />	    
+    </Grid.Column>
+    <Grid.Column>	    
      <Header as='h2'>
        <Icon name='folder' />
        <Header.Content>{this.state.first_name} 's Projects
@@ -199,8 +201,12 @@ class Individualuser extends Component
        </Card>
        ))}
      </Card.Group>
-   </div>
+     </Grid.Column>
+     </Grid.Row>
+     </Grid>
+    </div>
   </div>
+
   );
   }
 }
