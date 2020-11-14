@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import "./Trendingdesigns.css";
 import Designcard from './Designcard';
 import axios from 'axios';
-
+import Projectpage from '../Projectpage';
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
@@ -47,12 +47,13 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
             <h1>Trending Designs</h1>
             <div className = "trendingdesigns_designs">
             {this.state.projects.map(project =><div>
-            <Designcard  projectname = {project.name} description={project.description} designername = {this.state.users[1].username} likes={project.likes}/>
+            <Designcard  projectname = {project.name} description={project.description} designername = {"Ramya"} /*designername = {this.state.users[1].username}*/ likes={project.likes}/>
             </div>)
             }
             </div>
 
             </div>
+            
         )
     }
 }

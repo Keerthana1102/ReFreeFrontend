@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
-import Toolbar from './Toolbar/Toolbar';
-import SideDrawer from './SideDrawer/SideDrawer';
+import Toolbar from '../Toolbar/Toolbar';
+import SideDrawer from '../SideDrawer/SideDrawer';
 import { BrowserRouter as Router, Switch,Route } from "react-router-dom";
 import Trendingdesigns from './Trendingdesigns';
 import PersonalizedFeed from './PersonalizedFeed.js';
