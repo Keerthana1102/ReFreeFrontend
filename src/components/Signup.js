@@ -91,7 +91,7 @@ class Signup extends Component
             <Grid.Column width={6}>
               <span>
                 <h2>Built for Designers</h2>
-                <p style={{fontSize:'20px'}}>ReFree is a design platform inspired by the way you work. From managing projects to getting hired you can connect with the largest network of desingers on ReFree</p>
+                <p style={{fontSize:'20px'}}>ReFree is a design platform inspired by the way you work. From managing projects to getting hired you can connect with the largest network of designers on ReFree</p>
               </span>
             </Grid.Column>
             <Grid.Column width={10}>
