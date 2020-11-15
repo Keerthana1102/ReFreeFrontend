@@ -17,7 +17,7 @@ class projectpage extends Component {
     const js = await res.data;
     console.log(js);
     {js.results.map((cmp)=>{
-        if(cmp.project == this.props.user){
+        if(cmp.project == this.props.location.aprops.user){
         cmps.push(cmp);}
     })}
     this.setState({components : cmps});

@@ -7,7 +7,7 @@ import PersonalizedFeed from './PersonalizedFeed.js';
 import Userslist from './Userslist';
 import Favourites from './Favourites.js';
 import Profile from './Profile';
-
+import Projectpage from '../Projectpage';
 
 
 class Mainpage extends Component {
@@ -37,6 +37,7 @@ class Mainpage extends Component {
       <Route path="/designers" component = {Userslist} exact/>
       <Route path="/favourites" component = {Favourites} />
       <Route path="/profile" component = {Profile} />
+      <Route path="/Projectpage" component = {Projectpage} exact />
      
       
       
