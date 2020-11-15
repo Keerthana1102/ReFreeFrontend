@@ -9,6 +9,8 @@ import Signup from './components/Signup';
 import Profile from './components/Profile';
 import Done from './components/Done';
 import Error from './components/Error';
+import Designers from './components/Designers';
+import Newproject from './components/Newproject';
 
 function App() {
   return (
@@ -21,6 +23,9 @@ function App() {
 	  	<Route path="/done" component={Done} />
 	  	<Route path="/error" component={Error} />
 		  <Route path = "/Trending" component = {Mainpage} />
+		   <Route path = "/Designers" component = {Designers} />
+		   <Route path = "/Newproject" component = {Newproject} />
+		  
 	  </Switch>
 	</div>
     </BrowserRouter>
