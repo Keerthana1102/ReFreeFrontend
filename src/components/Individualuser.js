@@ -60,9 +60,9 @@ class Individualuser extends Component
      console.log(projectdata);
      const projectjson = await projectdata.data;
      this.setState({projects:projectjson})
-     const companydata = await axios({url:'http://127.0.0.1:8000/companies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(companydata);
-     const companyjson = await companydata.data.results;
+     const companyjson = await companydata.data;
      this.setState({companies:companyjson})
   }
 

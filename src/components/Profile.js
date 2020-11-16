@@ -68,9 +68,9 @@ class Profile extends Component
      const projectjson = await projectdata.data;
      this.setState({projects:projectjson})
 	
-     const companydata = await axios({url:'http://127.0.0.1:8000/companies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(companydata);
-     const companyjson = await companydata.data.results;
+     const companyjson = await companydata.data;
      this.setState({companies:companyjson})
 
   }
@@ -140,9 +140,9 @@ class Profile extends Component
     event.preventDefault();
     let formData = { user:this.state.userId ,company: this.state.company, position: this.state.position , time:this.state.time}
     const res = await axios({url:'http://127.0.0.1:8000/companies/' ,method:'POST', data:formData , withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
-    const companydata = await axios({url:'http://127.0.0.1:8000/companies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+    const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(companydata);
-     const companyjson = await companydata.data.results;
+     const companyjson = await companydata.data;
      this.setState({companies:companyjson})
      this.setState({company:""})
     this.setState({position:""})
@@ -155,7 +155,7 @@ class Profile extends Component
   const companyId = data;
    console.log(companyId);
   const res = await axios({url:`http://127.0.0.1:8000/companies/${companyId}` ,method:'DELETE' , withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
-  const companydata = await axios({url:'http://127.0.0.1:8000/companies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+  const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(companydata);
      const companyjson = await companydata.data.results;
      this.setState({companies:companyjson})
@@ -335,7 +335,7 @@ class Profile extends Component
                 <Dropdown name="time" value={this.state.time}  fluid search selection options = {workOptions} onChange={(event,data) =>this.handleTimeChange(event , data)}/>
          </Form.Field>
 	 <div style={{padding:'5% 0px 0px 0px', textAlign:'center'}}>
-       <Button color='green' type="submit" icon >Save Changes</Button></div>
+       <Button color='green' type="submit" icon >Add Company</Button></div>
        </Form>
      </Grid.Column>
      <Grid.Column> 
