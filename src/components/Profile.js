@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import { Icon,Card, Grid, Header, Button, Divider, Segment, Form, Message, Label, Dropdown} from 'semantic-ui-react';
+import { Icon,Card, Grid, Header, Button, Divider, List, Segment, Form, Message, Label, Dropdown} from 'semantic-ui-react';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import CKEditor from 'ckeditor4-react';
@@ -28,9 +28,15 @@ class Profile extends Component
       redirect : false,
       failed : false,
       projects :[],
+      companies : [],
+      company : "",
+      position : "",
+      time : "",
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onEditorChange = this.onEditorChange.bind(this);
+    this.companySubmit = this.companySubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
   async componentDidMount()
   {
@@ -61,6 +67,11 @@ class Profile extends Component
      console.log(projectdata);
      const projectjson = await projectdata.data;
      this.setState({projects:projectjson})
+	
+     const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     console.log(companydata);
+     const companyjson = await companydata.data;
+     this.setState({companies:companyjson})
 
   }
 
@@ -104,6 +115,52 @@ class Profile extends Component
     let formData = { username: this.state.username, first_name: this.state.first_name , last_name:this.state.last_name , email:this.state.email  , about:this.state.about , workExperience:this.state.workExperience , password : this.state.data.password }
     await axios({url:`http://127.0.0.1:8000/users/${this.state.userId}/` ,method:'PUT', data:formData , withCredentials:true} ).then(response=>{this.setState({redirect:true}); }).catch(error=>{this.setState({failed:true}); })
   }
+
+  handleCompanyChange = event => {
+    this.setState({
+      company: event.target.value
+    })
+  }
+  
+  handlePositionChange = event => {
+    this.setState({
+      position: event.target.value
+    })
+  }
+
+  handleTimeChange=(event , data) => {
+
+    let  opt= data.value;
+    this.setState({time:opt});
+  }
+
+
+
+   companySubmit = async(event) => {
+    event.preventDefault();
+    let formData = { user:this.state.userId ,company: this.state.company, position: this.state.position , time:this.state.time}
+    const res = await axios({url:'http://127.0.0.1:8000/companies/' ,method:'POST', data:formData , withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
+    const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     console.log(companydata);
+     const companyjson = await companydata.data;
+     this.setState({companies:companyjson})
+     this.setState({company:""})
+    this.setState({position:""})
+    this.setState({time:""})
+
+  }
+
+
+  async handleDelete(data) {
+  const companyId = data;
+   console.log(companyId);
+  const res = await axios({url:`http://127.0.0.1:8000/companies/${companyId}` ,method:'DELETE' , withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
+  const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     console.log(companydata);
+     const companyjson = await companydata.data.results;
+     this.setState({companies:companyjson})
+
+}
 
   renderRedirect= () => {
     if(this.state.redirect==true) {
@@ -236,6 +293,50 @@ class Profile extends Component
        <div style={{padding:'5% 0px 0px 0px', textAlign:'center'}}>
        <Button color='green' type="submit" icon >Save Changes</Button></div>
      </Form>
+	 <Divider horizontal>
+            <Header as='h4'>
+              <Icon name='industry' />
+              Companies
+            </Header>
+          </Divider>
+
+     <List divided relaxed size='large'>
+       {this.state.companies.map(el => (
+    <List.Item>
+      <List.Icon name='suitcase' size='large' verticalAlign='middle' />
+      <List.Content>
+        <List.Header>{el.company}</List.Header>
+        <List.Description as='a'>Postion {el.position} ,  
+	<span style={{paddingLeft:'10px' , paddingRight:'10px'}}> <Dropdown name="display" value={el.time}   options = {workOptions} disabled/></span>
+        <span style={{paddingLeft:'5px'}}> <Button onClick={()=>this.handleDelete(el.id)} icon color='red' size='tiny'><Icon name="trash" /></Button></span>
+</List.Description>
+      </List.Content>
+    </List.Item>
+   ))}
+    </List>
+    <Divider horizontal>
+            <Header as='h4'>
+              <Icon name='plus' />
+              Add Company
+            </Header>
+          </Divider>
+
+     <Form onSubmit={event => this.companySubmit(event)}>
+        <Form.Field >
+                <label style={{fontWeight:'bold'}}>Company Name</label>
+                <input type="text" value={this.state.company}  onChange={event => this.handleCompanyChange(event)} />
+        </Form.Field>
+	<Form.Field >
+                <label style={{fontWeight:'bold'}}>Positon</label>
+                <input type="text" value={this.state.position}  onChange={event => this.handlePositionChange(event)} />
+        </Form.Field>
+	<Form.Field >
+                <label style={{fontWeight:'bold'}}>Time</label>
+                <Dropdown name="time" value={this.state.time}  fluid search selection options = {workOptions} onChange={(event,data) =>this.handleTimeChange(event , data)}/>
+         </Form.Field>
+	 <div style={{padding:'5% 0px 0px 0px', textAlign:'center'}}>
+       <Button color='green' type="submit" icon >Add Company</Button></div>
+       </Form>
      </Grid.Column>
      <Grid.Column> 
      <Header as='h2'>
