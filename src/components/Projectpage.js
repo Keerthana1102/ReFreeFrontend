@@ -6,41 +6,58 @@ class projectpage extends Component {
   constructor()
   {
     super();
-    this.state = {components : []} 
-  }
+    this.state = {components : [],finaldesigns : []}
+
+    }
+
+  
   async componentDidMount()
   {
     let cmps = [];
+    let des = [];
     
   
     const res = await axios({url:'http://127.0.0.1:8000/component/', method:'get' , withCredentials:true}).then(response=>{return response})
     const js = await res.data;
     console.log(js);
     {js.results.map((cmp)=>{
-        if(cmp.project == this.props.location.aprops.user){
+        if(cmp.project == this.props.project){
         cmps.push(cmp);}
     })}
+    console.log(cmps);
     this.setState({components : cmps});
+    const response = await axios({url:'http://127.0.0.1:8000/finalDesign/', method:'get' , withCredentials:true}).then(response=>{return response})
+    const json = await response.data;
+    {json.results.map((design)=>{
+      if(design.project === this.props.project){
+      des.push(design);}
+  })}
+  console.log(des);
+  this.setState({finaldesigns : des});;
+    
   }
   render() {
-      console.log(this.state.components);
     return (
-        this.state.components.map((cmp)=>
+      <div>
+        {this.state.components.reverse().map((cmp) =>
+        cmp.upload === null ? <p>{cmp.description}</p> :
         <div className = "component">
             <img src = {cmp.upload}></img>
-            <div className = "description">
             <p>{cmp.description}</p>
-            </div>
         </div>
-      
-        
-
-        )
-    )
+        )}
+        {this.state.finaldesigns.reverse().map((des)=>
+        <div className = "component">
+            <img src = {des.finaldesign}></img>
+        </div>
+        )}
+        </div>)
+  }
+}
         
     
-}
-} 
+
+
  
 
 
