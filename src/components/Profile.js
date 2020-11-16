@@ -36,6 +36,7 @@ class Profile extends Component
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onEditorChange = this.onEditorChange.bind(this);
     this.companySubmit = this.companySubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
   async componentDidMount()
   {
@@ -143,9 +144,23 @@ class Profile extends Component
      console.log(companydata);
      const companyjson = await companydata.data.results;
      this.setState({companies:companyjson})
+     this.setState({company:""})
+    this.setState({position:""})
+    this.setState({time:""})
 
   }
 
+
+  async handleDelete(data) {
+  const companyId = data;
+   console.log(companyId);
+  const res = await axios({url:`http://127.0.0.1:8000/companies/${companyId}` ,method:'DELETE' , withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
+  const companydata = await axios({url:'http://127.0.0.1:8000/companies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     console.log(companydata);
+     const companyjson = await companydata.data.results;
+     this.setState({companies:companyjson})
+
+}
 
   renderRedirect= () => {
     if(this.state.redirect==true) {
@@ -285,14 +300,15 @@ class Profile extends Component
             </Header>
           </Divider>
 
-     <List divided relaxed>
+     <List divided relaxed size='large'>
        {this.state.companies.map(el => (
     <List.Item>
       <List.Icon name='suitcase' size='large' verticalAlign='middle' />
       <List.Content>
         <List.Header>{el.company}</List.Header>
-        <List.Description as='a'>Postion {el.position} 
-	 <Dropdown name="display" value={el.time}   options = {workOptions} disabled/>
+        <List.Description as='a'>Postion {el.position} ,  
+	<span style={{paddingLeft:'10px' , paddingRight:'10px'}}> <Dropdown name="display" value={el.time}   options = {workOptions} disabled/></span>
+        <span style={{paddingLeft:'5px'}}> <Button onClick={()=>this.handleDelete(el.id)} icon color='red' size='tiny'><Icon name="trash" /></Button></span>
 </List.Description>
       </List.Content>
     </List.Item>
