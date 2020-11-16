@@ -96,36 +96,9 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 					)
 				}
 			</Card.Group>
-      <Projectpage project = "5"/>
+     {/* <Projectpage project = "5"/>*/}
 
-            {/*<Card.Group>
-            {this.state.projects.map(project =>
-            /*<Link to={{pathname : "/Projectpage" ,aprops :{project : project.project}}} style={{ textDecoration: 'none' }}>
-            <Card style={{ width: '15rem', height : '15rem',paddingRight:'2%' }}>
-              
-               <Image src = {project.display} style = {{width : '100%'},{height : '100%'}} />
-            <Card.Content>
-            <Card.Header>
-            <CKEditor data={project.name} type = 'inline' readOnly={true} />
-              </Card.Header>
-            <Card.Description>
-            <CKEditor data={project.description} type="inline" readOnly={true} />
-            </Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-            <a>
-            <Icon name='user' />
-            {this.state.userlist[project.user]}
-            </a>
-            </Card.Content>
-            <Card.Content extra>
-            <a floated='right' size='mini'>
-            {project.likes}
-            </a>
-            </Card.Content> 
-            </Card>/*</Link>  )}
            
-            </Card.Group>*/}
             </div>
         
             
