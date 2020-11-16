@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import {Icon, Card, Grid, Search, Header} from 'semantic-ui-react'
+import {Icon, Card, Grid, Search, Header,Input} from 'semantic-ui-react'
 
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
@@ -8,7 +8,7 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 export default class Designers extends React.Component{
 	state = {
 		persons: [],
-		search:""
+		search:"search",
 	};
 
 	async componentDidMount(){
@@ -28,36 +28,36 @@ export default class Designers extends React.Component{
 	    this.setState({persons:json.results});
 	}
 
-	renderperson = person => {
-	    const { search } = this.state.search;
-	    return (
-	      <Card
-			href="/profile"
-			image={person.profile_photo}
-			header={person.username}
-			meta={person.workExperience+" yrs"}
-			description={person.about}
-			extra={
-				<a>
-			       <i class="users icon"></i>
-			       2 Members
-			    </a>
-			}
-		/>
-	    );
-	  };
-
+	renderlist =person => {
+		const {persons,search}=this.state;
+		var lowercase=String(search).toLowerCase();
+		var l1=String(person.username).toLowerCase();
+		if( search !== "" && l1.indexOf(lowercase) === -1 ){
+	        return null
+	    }
+        return(
+        	<Card
+				href="/profile"
+				image={person.profile_photo}
+				header={person.username}
+				meta={person.workExperience+" yrs"}
+				description={person.about}
+				extra={
+					<a>
+				       <i class="users icon"></i>
+				       2 Members
+				    </a>
+				}
+			/>
+        );
+	};
 
 	onChange=e=>{
 		this.setState({search:e.target.value});
-	}
+	};
 
 	render(){
-		const {search}=this.state.search;
-		const filtered = this.state.persons.filter(person => {
-		  var lowercase = String(search).toLowerCase();
-	      return person.username.toLowerCase().indexOf(lowercase) !== -1;
-	    });
+		const {persons,search}=this.state;
 		return(
 			<Grid padded>
 	          <Grid.Row color='black'>
@@ -78,18 +78,24 @@ export default class Designers extends React.Component{
 		         </Header>
 		        </div>
 	          </Grid.Row>
-	       		<Grid.Column width={4}>
-					<Search
-						onChange={this.onChange}
-					/>
-				</Grid.Column>
+	          <div style={{ paddingLeft:'1%' }}>
+	          <Grid.Row >
+				<Input
+                  icon="search"
+                  onChange={this.onChange}
+                />
+			  </Grid.Row>
+			  <br/>
+			  <Grid.Row>
 				<Card.Group>{
-					this.state.persons.map(person =>{
-						return this.renderperson(person);
-					}
+					persons.map(person =>{
+						return this.renderlist(person);
+					}	
 					)
 				}
-			</Card.Group>
+				</Card.Group>
+			  </Grid.Row>
+			  </div>
 			</Grid>
 		)
 	}
