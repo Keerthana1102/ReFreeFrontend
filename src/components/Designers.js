@@ -8,7 +8,7 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 export default class Designers extends React.Component{
 	state = {
 		persons: [],
-		search:"search",
+		search:"",
 	};
 
 	async componentDidMount(){
