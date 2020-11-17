@@ -29,6 +29,7 @@ class Individualuser extends Component
       failed : false,
       projects :[],
       companies:[],
+      links : [],
     }
    }
   async componentDidMount()
@@ -60,10 +61,17 @@ class Individualuser extends Component
      console.log(projectdata);
      const projectjson = await projectdata.data;
      this.setState({projects:projectjson})
-     const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(companydata);
      const companyjson = await companydata.data;
      this.setState({companies:companyjson})
+
+
+     const linkdata = await axios({url:'http://127.0.0.1:8000/socialLinks/userlinks' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     console.log(linkdata);
+     const linkjson = await linkdata.data;
+     this.setState({links:linkjson})
+
   }
 
   render()
@@ -185,6 +193,8 @@ class Individualuser extends Component
           <Dropdown name="workExperience" value={this.state.workExperience}  fluid search selection options = {workOptions} disabled/>
        </Form.Field>
      </Form>
+	<br/>
+	<br/>
     <Divider horizontal>
             <Header as='h4'>
               <Icon name='industry' />
@@ -205,6 +215,29 @@ class Individualuser extends Component
     </List.Item>
    ))}
     </List>
+
+	   <br/>
+	   <br/>
+	<Divider horizontal>
+            <Header as='h4'>
+              <Icon name='tag' />
+              Social Links
+            </Header>
+          </Divider>
+
+     <List divided relaxed size='large'>
+       {this.state.links.map(el => (
+    <List.Item>
+      <List.Icon name='bookmark' size='large' verticalAlign='middle' />
+      <List.Content>
+        <List.Header>{el.name}</List.Header>
+        <List.Description as='a'>Link : {el.link} 
+</List.Description>
+      </List.Content>
+    </List.Item>
+   ))}
+    </List>
+
     </Grid.Column>
     <Grid.Column>	    
      <Header as='h2'>
