@@ -32,11 +32,16 @@ class Profile extends Component
       company : "",
       position : "",
       time : "",
+      links : [],
+      name : "",
+      link : "",
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onEditorChange = this.onEditorChange.bind(this);
     this.companySubmit = this.companySubmit.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.linkSubmit = this.linkSubmit.bind(this);
+    this.linkDelete = this.linkDelete.bind(this);
   }
   async componentDidMount()
   {
@@ -68,10 +73,17 @@ class Profile extends Component
      const projectjson = await projectdata.data;
      this.setState({projects:projectjson})
 	
-     const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(companydata);
      const companyjson = await companydata.data;
      this.setState({companies:companyjson})
+
+
+     const linkdata = await axios({url:'http://127.0.0.1:8000/socialLinks/userlinks' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     console.log(linkdata);
+     const linkjson = await linkdata.data;
+     this.setState({links:linkjson})
+
 
   }
 
@@ -140,10 +152,11 @@ class Profile extends Component
     event.preventDefault();
     let formData = { user:this.state.userId ,company: this.state.company, position: this.state.position , time:this.state.time}
     const res = await axios({url:'http://127.0.0.1:8000/companies/' ,method:'POST', data:formData , withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
-    const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+    const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(companydata);
      const companyjson = await companydata.data;
      this.setState({companies:companyjson})
+
      this.setState({company:""})
     this.setState({position:""})
     this.setState({time:""})
@@ -155,12 +168,53 @@ class Profile extends Component
   const companyId = data;
    console.log(companyId);
   const res = await axios({url:`http://127.0.0.1:8000/companies/${companyId}` ,method:'DELETE' , withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
-  const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+  const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(companydata);
-     const companyjson = await companydata.data.results;
+     const companyjson = await companydata.data;
      this.setState({companies:companyjson})
 
+
 }
+
+ handleNameChange = event => {
+    this.setState({
+      name: event.target.value
+    })
+  }
+  
+  handleLinkChange = event => {
+    this.setState({
+      link: event.target.value
+    })
+  }
+
+linkSubmit = async(event) => {
+    event.preventDefault();
+    let formData = { user:this.state.userId ,name: this.state.name, link: this.state.link}
+    const res = await axios({url:'http://127.0.0.1:8000/socialLinks/' ,method:'POST', data:formData , withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
+    const linkdata = await axios({url:'http://127.0.0.1:8000/socialLinks/userlinks' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     console.log(linkdata);
+     const linkjson = await linkdata.data;
+     this.setState({links:linkjson})
+
+
+     this.setState({link:""})
+    this.setState({name:""})
+
+  }
+
+ async linkDelete(data) {
+  const linkId = data;
+   console.log(linkId);
+  const res = await axios({url:`http://127.0.0.1:8000/socialLinks/${linkId}` ,method:'DELETE' , withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
+  const linkdata = await axios({url:'http://127.0.0.1:8000/socialLinks/userlinks' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     console.log(linkdata);
+     const linkjson = await linkdata.data;
+     this.setState({links:linkjson})
+
+
+}
+
 
   renderRedirect= () => {
     if(this.state.redirect==true) {
@@ -293,6 +347,9 @@ class Profile extends Component
        <div style={{padding:'5% 0px 0px 0px', textAlign:'center'}}>
        <Button color='green' type="submit" icon >Save Changes</Button></div>
      </Form>
+
+	  <br/>
+	   <br/>
 	 <Divider horizontal>
             <Header as='h4'>
               <Icon name='industry' />
@@ -337,6 +394,44 @@ class Profile extends Component
 	 <div style={{padding:'5% 0px 0px 0px', textAlign:'center'}}>
        <Button color='green' type="submit" icon >Add Company</Button></div>
        </Form>
+	<br />
+	<br/>
+       <Divider horizontal>
+            <Header as='h4'>
+              <Icon name='tag' />
+              Social Links
+            </Header>
+          </Divider>
+
+     <List divided relaxed size='large'>
+       {this.state.links.map(el => (
+    <List.Item>
+      <List.Icon name='bookmark' size='large' verticalAlign='middle' />
+      <List.Content>
+        <List.Header>{el.name}</List.Header>
+        <List.Description as='a'>Link : {el.link} 
+        <span style={{paddingLeft:'5px'}}> <Button onClick={()=>this.linkDelete(el.id)} icon color='red' size='tiny'><Icon name="trash" /></Button></span>
+</List.Description>
+      </List.Content>
+    </List.Item>
+   ))}
+    </List>
+
+
+    <Form onSubmit={event => this.linkSubmit(event)}>
+        <Form.Field >
+                <label style={{fontWeight:'bold'}}>Name</label>
+                <input type="text" value={this.state.name}  onChange={event => this.handleNameChange(event)} />
+        </Form.Field>
+        <Form.Field >
+                <label style={{fontWeight:'bold'}}>Link</label>
+                <input type="text" value={this.state.link}  onChange={event => this.handleLinkChange(event)} />
+        </Form.Field>
+         <div style={{padding:'5% 0px 0px 0px', textAlign:'center'}}>
+       <Button color='green' type="submit" icon >Add Link</Button></div>
+       </Form>
+
+
      </Grid.Column>
      <Grid.Column> 
      <Header as='h2'>
