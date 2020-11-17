@@ -9,14 +9,12 @@ img {
     margin-bottom: 20px;
     margin-right: 50px;
 }
-.description{
+
+p{
     flex: 0.5;
-    
-    background-color: white;
+    background-color:white;
     margin-bottom: 20px;
     margin-right: 50px;
-}
-div p{
     text-align: center;
 
 }

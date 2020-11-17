@@ -1,11 +1,8 @@
 .trendingdesigns {
     flex : 0.8;
-    border: 1px solid black;
-    background-color: whitesmoke;
+    /*border: 1px solid black;*/
+    /*background-color: whitesmoke;*/
     padding: 40px 20px;
     padding-bottom: 0;
 }
-.trendingdesigns_designs {
-    display: flex;
-    flex-wrap: wrap;
-}
+
