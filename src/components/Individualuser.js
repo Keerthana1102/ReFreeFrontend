@@ -1,6 +1,8 @@
 import React , { Component } from 'react';
 import { Icon,Card, Grid,Image, Header, Button,List, Divider, Segment, Form, Message, Label, Dropdown} from 'semantic-ui-react';
 import { Link, Redirect } from 'react-router-dom';
+import Toolbar from './Toolbar/Toolbar';
+import SideDrawer from './SideDrawer/SideDrawer';
 import axios from 'axios';
 import CKEditor from 'ckeditor4-react';
 import PropTypes from 'prop-types';

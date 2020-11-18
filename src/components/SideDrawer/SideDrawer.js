@@ -5,19 +5,19 @@ import { Link } from "react-router-dom";
 function Sidebar() {
     return (
         <div className = "Sidebar">
-            <Link to={"/trending"}>
+            <Link to={"/Trending"}>
             <SidebarRow title = "Trending"/>
             </Link>
             <Link to={"/personalizedfeed"}>
             <SidebarRow title = "Personalized feed"/>
             </Link>
-            <Link to={"/designers"}>
+            <Link to={"/Designers"}>
             <SidebarRow title = "Designers"/>
             </Link>
             <Link to={"/favourites"}>
             <SidebarRow title = "Favourites"/>
             </Link>
-            <Link to={"/profile"}>
+            <Link to={"/Profile"}>
             <SidebarRow title = "Profile"/>
             </Link>
             

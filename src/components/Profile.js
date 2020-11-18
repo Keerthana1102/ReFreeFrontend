@@ -4,7 +4,8 @@ import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import CKEditor from 'ckeditor4-react';
 import PropTypes from 'prop-types';
-
+import Toolbar from './Toolbar/Toolbar';
+import SideDrawer from './SideDrawer/SideDrawer';
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
@@ -253,6 +254,12 @@ linkSubmit = async(event) => {
       return <Redirect to={{pathname:'/error'  }}/>
     }
  }
+ drawerToggleClickHandler = () => {
+  this.setState((prevState)=>{
+    return {SideDrawerOpen: !prevState.SideDrawerOpen};
+  });   
+
+};
   render()
   {    
     const workOptions = [
@@ -277,18 +284,14 @@ linkSubmit = async(event) => {
       value: '3',
     },
     ]
+    let sideDrawer;
+    if(this.state.SideDrawerOpen){
+      sideDrawer = <SideDrawer />;
+    }
     return(
       <div>
-        <Grid padded>
-           <Grid.Row color='black'>
-              <Grid.Column width={1}>
-                <Icon name="world" size="big"/>
-              </Grid.Column>
-              <Grid.Column width={15}>
-                <h2>ReFree</h2>
-              </Grid.Column>
-          </Grid.Row>
-        </Grid>
+        <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
+        {sideDrawer } 
         <br/>
         <br/>
         <div style={{margin:'auto' , paddingLeft:'10%' , paddingRight:'10%'}}>

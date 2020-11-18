@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import './Projectpage.css'
+import Toolbar from '../Toolbar/Toolbar';
+import SideDrawer from '../SideDrawer/SideDrawer';
 class projectpage extends Component {
    
   constructor()
@@ -36,9 +38,23 @@ class projectpage extends Component {
   this.setState({finaldesigns : des});;
     
   }
+  drawerToggleClickHandler = () => {
+    this.setState((prevState)=>{
+      return {SideDrawerOpen: !prevState.SideDrawerOpen};
+    });   
+  
+  };
   render() {
+    let sideDrawer;
+    if(this.state.SideDrawerOpen){
+      sideDrawer = <SideDrawer />;
+    }
+    
     return (
       <div>
+      <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
+      {sideDrawer }
+      
         {this.state.components.reverse().map((cmp) =>
         cmp.upload === null ? <p>{cmp.description}</p> :
         <div className = "component">

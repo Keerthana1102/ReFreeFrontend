@@ -1,7 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import {Icon, Card, Grid, Search, Header,Input} from 'semantic-ui-react'
-
+import Toolbar from './Toolbar/Toolbar';
+import SideDrawer from './SideDrawer/SideDrawer';
+import { Router } from 'react-router-dom';
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
@@ -9,6 +11,7 @@ export default class Designers extends React.Component{
 	state = {
 		persons: [],
 		search:"",
+		SideDrawerOpen : false
 	};
 
 	async componentDidMount(){
@@ -55,19 +58,24 @@ export default class Designers extends React.Component{
 	onChange=e=>{
 		this.setState({search:e.target.value});
 	};
+	drawerToggleClickHandler = () => {
+		this.setState((prevState)=>{
+		  return {SideDrawerOpen: !prevState.SideDrawerOpen};
+		});   
+	
+	  };
 
 	render(){
 		const {persons,search}=this.state;
+		let sideDrawer;
+		if(this.state.SideDrawerOpen){
+			sideDrawer = <SideDrawer />;
+		}
 		return(
+			<div>
+			<Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
+            { sideDrawer }
 			<Grid padded>
-	          <Grid.Row color='black'>
-	            <Grid.Column width={1}>
-	              <Icon name="world" size="big"/>
-	            </Grid.Column>
-	            <Grid.Column width={15}>
-	              <h2>ReFree</h2>
-	            </Grid.Column>
-	          </Grid.Row>
 	          <Grid.Row width = {4}>
 	          	<div style={{ paddingLeft:'1%' }}>
 		          <Header as='h2'>
@@ -97,6 +105,7 @@ export default class Designers extends React.Component{
 			  </Grid.Row>
 			  </div>
 			</Grid>
+			</div>
 		)
 	}
 }

@@ -3,16 +3,18 @@ import React, { Component } from 'react';
 import "./Trendingdesigns.css";
 import axios from 'axios';
 import { Card, Icon, Image } from 'semantic-ui-react'
-import Projectpage from '../Projectpage';
+import Projectpage from './Projectpage';
 import { Link } from 'react-router-dom';
 import CKEditor from 'ckeditor4-react';
+import Toolbar from './Toolbar/Toolbar';
+import SideDrawer from './SideDrawer/SideDrawer';
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 
  class Trendingdesigns extends React.Component {
 
-    state = {userlist : {}}
+    state = {userlist : {},SideDrawerOpen : false}
      
     constructor(props) {
         super(props);
@@ -62,12 +64,6 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
                </Link>
                </a>
                <p></p>
-          <a>
-               <i class="like icon" size='mini'>
-               {project.likes}
-               </i>
-          </a>
-          <p></p>
           {project.creation}
           </div>
           
@@ -79,14 +75,24 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
       );
       };
         
-        
+      drawerToggleClickHandler = () => {
+        this.setState((prevState)=>{
+          return {SideDrawerOpen: !prevState.SideDrawerOpen};
+        });   
     
-      
+      };  
     
     
 	  
     render() {  
+        let sideDrawer;
+        if(this.state.SideDrawerOpen){
+          sideDrawer = <SideDrawer />;
+        }
         return (
+          <div>
+          <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
+          {sideDrawer } 
             <div className = "trendingdesigns">
             <h1>Trending Designs</h1>
             <Card.Group>{
@@ -96,9 +102,8 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 					)
 				}
 			</Card.Group>
-     {/* <Projectpage project = "5"/>*/}
-
            
+            </div>
             </div>
         
             
