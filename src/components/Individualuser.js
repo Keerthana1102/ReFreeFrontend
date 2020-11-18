@@ -207,7 +207,8 @@ async unfollowUser(data) {
 	    </div>
 	    <div style={{paddingLeft:'2%'}}>
 	    <label style={{fontWeight:'bold'}}>Profile Photo</label>
-         <Image src={this.state.data.profile_photo} size="small" /> 
+	    {this.state.data.profile_photo && <Image src={this.state.data.profile_photo} size="small" />}
+	    {!this.state.data.profile_photo && <div><Icon name="user outline" size="huge" /></div> }
 	    </div>
 	    </div>
           <div style={{display:'grid' , gridTemplateColumns:'auto auto'}}>
