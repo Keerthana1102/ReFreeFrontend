@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import { Icon,Card, Grid, Header, Button,List, Divider, Segment, Form, Message, Label, Dropdown} from 'semantic-ui-react';
+import { Icon,Card, Grid,Image, Header, Button,List, Divider, Segment, Form, Message, Label, Dropdown} from 'semantic-ui-react';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import CKEditor from 'ckeditor4-react';
@@ -135,6 +135,7 @@ async unfollowUser(data) {
              }
       }
       console.log(this.state.isfollowing)
+	    console.log(this.state.profile_photo)
 }
 
 
@@ -197,11 +198,18 @@ async unfollowUser(data) {
                 Personal Details
               </Header>
           </Divider>
+	    <div style={{display:'grid' , gridTemplateColumns:'auto auto'}}>
+	    <div style={{paddingRight:'2%'}}>
 	  <Form.Field>
             <label style={{fontWegiht:'bold'}}>Username</label>
             <input type="text" value={this.state.username} readOnly/>
 	  </Form.Field>
-          
+	    </div>
+	    <div style={{paddingLeft:'2%'}}>
+	    <label style={{fontWeight:'bold'}}>Profile Photo</label>
+         <Image src={this.state.data.profile_photo} size="small" /> 
+	    </div>
+	    </div>
           <div style={{display:'grid' , gridTemplateColumns:'auto auto'}}>
             <div style={{paddingRight:'2%'}}>
               <Form.Field >
