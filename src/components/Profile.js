@@ -35,6 +35,9 @@ class Profile extends Component
       links : [],
       name : "",
       link : "",
+      follows : [],
+      following : [],
+      userlist : [],
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onEditorChange = this.onEditorChange.bind(this);
@@ -84,7 +87,33 @@ class Profile extends Component
      const linkjson = await linkdata.data;
      this.setState({links:linkjson})
 
+     const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     console.log(followsdata);
+     const followjson = await followsdata.data;
+     this.setState({follows:followjson})
 
+     const followingdata = await axios({url:'http://127.0.0.1:8000/follow/userfollowing' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     console.log(followingdata);
+     const followingjson = await followingdata.data;
+     this.setState({following:followingjson})
+ 
+    
+     const userresponse = await axios({url:'http://127.0.0.1:8000/users/', withCredentials:true }).then(response=>{return response}).catch(error=>{console.log(error)})
+
+     console.log(userresponse.data.results)
+     let newdict=[];
+     let count=0;
+     for(let user in userresponse.data.results)
+     {
+	     console.log(userresponse.data.results[user].id)
+	     console.log(userresponse.data.results[user])
+	     newdict[userresponse.data.results[user].id]=userresponse.data.results[user].username
+           
+	     
+   }
+    console.log(newdict)
+    this.setState({userlist:newdict})
+	   console.log(this.state.userlist)
   }
 
 
@@ -285,6 +314,42 @@ linkSubmit = async(event) => {
             <label >Username</label>
             <input type="text" value={this.state.username}  readOnly/>
           </Form.Field>
+
+	    <Divider horizontal>
+             <Header as='h4'>
+                <Icon name='user outline' />
+                Following
+              </Header>
+          </Divider>
+
+	    <List divided relaxed size='large'>
+       {this.state.follows.map(el => (
+    <List.Item>
+      <List.Icon name='bullseye' size='small' verticalAlign='middle' />
+      <List.Content>
+        <List.Header>{this.state.userlist[el.following_user_id]}</List.Header>
+      </List.Content>
+    </List.Item>
+   ))}
+    </List>
+     <Divider horizontal>
+             <Header as='h4'>
+                <Icon name='user outline' />
+                Followers
+              </Header>
+          </Divider>
+
+            <List divided relaxed size='large'>
+       {this.state.following.map(el => (
+    <List.Item>
+      <List.Icon name='bullseye' size='small' verticalAlign='middle' />
+      <List.Content>
+        <List.Header>{this.state.userlist[el.user_id]}</List.Header>
+      </List.Content>
+    </List.Item>
+   ))}
+    </List>
+
           <div style={{display:'grid' , gridTemplateColumns:'auto auto'}}>
             <div style={{paddingRight:'2%'}}>
               <Form.Field >
