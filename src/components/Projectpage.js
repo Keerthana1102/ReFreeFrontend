@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import './Projectpage.css'
-import Toolbar from '../Toolbar/Toolbar';
-import SideDrawer from '../SideDrawer/SideDrawer';
+import Toolbar from './Toolbar/Toolbar';
+import SideDrawer from './SideDrawer/SideDrawer';
 class projectpage extends Component {
    
   constructor()
