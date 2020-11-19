@@ -12,6 +12,7 @@ import Designers from './components/Designers';
 import Newproject from './components/Newproject';
 import Individualuser from './components/Individualuser';
 import Trendingdesigns from './components/Trendingdesigns'
+import Personalizedfeed from './components/Personalizedfeed';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
 		<Route path = "/Newproject" component = {Newproject} />
 		<Route path = "/Trending" component = {Trendingdesigns} />
 	  	<Route path="/individualuser" component={Individualuser} />
+	        <Route path="/personalizedfeed" component={Personalizedfeed} />
 	  </Switch>
 	</div>
     </BrowserRouter>
