@@ -2,6 +2,8 @@ import axios from 'axios';
 
 import React,{Component} from 'react'; 
 import {Grid,Icon,Header} from 'semantic-ui-react';
+import Toolbar from './Toolbar/Toolbar';
+import SideDrawer from './SideDrawer/SideDrawer';
 
 class App extends Component { 
 
@@ -66,11 +68,24 @@ class App extends Component {
 		); 
 	} 
 	}; 
+	drawerToggleClickHandler = () => {
+		this.setState((prevState)=>{
+		  return {SideDrawerOpen: !prevState.SideDrawerOpen};
+		});   
+	  
+	  };
+	
 	
 	render() { 
+	let sideDrawer;
+	if(this.state.SideDrawerOpen){
+	  sideDrawer = <SideDrawer />;
+	}
 	
 	return ( 
 		<div> 
+			 <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
+			{sideDrawer }
 			<Grid padded>
 	          <Grid.Row color='black'>
 	            <Grid.Column width={1}>

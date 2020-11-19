@@ -23,19 +23,20 @@ class projectpage extends Component {
     const js = await res.data;
     console.log(js);
     {js.results.map((cmp)=>{
-        if(cmp.project == this.props.project){
+        if(cmp.project == this.props.location.project){
         cmps.push(cmp);}
     })}
     console.log(cmps);
     this.setState({components : cmps});
     const response = await axios({url:'http://127.0.0.1:8000/finalDesign/', method:'get' , withCredentials:true}).then(response=>{return response})
     const json = await response.data;
+    console.log(json);
     {json.results.map((design)=>{
-      if(design.project === this.props.project){
+      if(design.project == this.props.location.project){
       des.push(design);}
   })}
   console.log(des);
-  this.setState({finaldesigns : des});;
+  this.setState({finaldesigns : des});
     
   }
   drawerToggleClickHandler = () => {
@@ -54,19 +55,30 @@ class projectpage extends Component {
       <div>
       <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
       {sideDrawer }
-      
-        {this.state.components.reverse().map((cmp) =>
+      <br/>
+        <div>
+        <h1 style = {{textAlign : "center"}}>Components</h1>
+        <br/>
+        <div >
+        {this.state.components.map((cmp) =>
         cmp.upload === null ? <p>{cmp.description}</p> :
         <div className = "component">
-            <img src = {cmp.upload}></img>
+            <img src = {cmp.upload} ></img>
             <p>{cmp.description}</p>
-        </div>
+            </div>
         )}
-        {this.state.finaldesigns.reverse().map((des)=>
+        </div>
+        <br/>
+        <h1 style = {{textAlign : "center"}}>FinalDesigns</h1>
+        <br/>
+        <div className = "finaldesigns" style = {{display : "flex"}}>
+        {this.state.finaldesigns.map((des)=>
         <div className = "component">
-            <img src = {des.finaldesign}></img>
+            <img src = {des.finaldesign} style = {{height : '200px'},{width:'400px'}}></img>
         </div>
         )}
+        </div>
+        </div>
         </div>)
   }
 }

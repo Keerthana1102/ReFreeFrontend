@@ -3,9 +3,9 @@
     
 }
 img {
-    flex: 0.5;
+    flex: 0.4;
     height: 400px;
-    width: 40%;
+    width: 100px;
     margin-bottom: 20px;
     margin-right: 50px;
 }

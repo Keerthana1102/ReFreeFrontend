@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import "./Trendingdesigns.css";
 import axios from 'axios';
 import { Card, Icon, Image } from 'semantic-ui-react'
-import Projectpage from './Projectpage';
 import { Link } from 'react-router-dom';
 import CKEditor from 'ckeditor4-react';
 import Toolbar from './Toolbar/Toolbar';
@@ -50,8 +49,9 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
       }
       renderproject = project => {
         return (
-          
-          <Card href  = "/Projectpage"
+            <div className = "indproject">
+              <Link to = {{pathname : "/Projectpage",project : project.id}}>
+          <Card 
         image={project.display}
         header={<CKEditor data={project.name} type = 'inline' readOnly={true} />}
         description={<CKEditor data={project.description} type="inline" readOnly={true} />}
@@ -70,6 +70,9 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
         }
       />
+      </Link>
+      </div>
+      
       
       
       );
@@ -93,15 +96,17 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
           <div>
           <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
           {sideDrawer } 
-            <div className = "trendingdesigns">
-            <h1>Trending Designs</h1>
-            <Card.Group>{
+          <div className = "trendingdesigns">
+          <h1>Trending Designs</h1>
+          <div className = "projects">
+          {
 					this.state.projects.map(project =>{
 						return this.renderproject(project);
 					}
 					)
 				}
-			</Card.Group>
+        </div>
+        
            
             </div>
             </div>

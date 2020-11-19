@@ -6,3 +6,11 @@
     padding-bottom: 0;
 }
 
+.projects {
+    display: flex;
+}
+.indproject{
+    margin-bottom: 20px;
+    margin-right: 50px;
+
+}

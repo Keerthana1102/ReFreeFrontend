@@ -61,7 +61,9 @@ class Login extends Component
                <input type='password' value= {this.state.password} onChange={this.handlePasswordChange} />
             </Form.Field>
             <div style={{textAlign:'center'}}>
+              <Link to = "/trending">
               <Button fluid color='green' type='submit'>Sign In</Button>
+              </Link>
             </div>
           </Form>
          {this.state.isError && <Message negative><Message.Header>Please fill all required fields</Message.Header></Message>}

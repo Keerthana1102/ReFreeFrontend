@@ -57,9 +57,22 @@ class Personalizedfeed extends Component
 	  console.log(newarr);
       this.setState({projects:newarr})
   }
+  drawerToggleClickHandler = () => {
+    this.setState((prevState)=>{
+      return {SideDrawerOpen: !prevState.SideDrawerOpen};
+    });   
+  
+  };
+  
   render()
   {
+    let sideDrawer;
+    if(this.state.SideDrawerOpen){
+      sideDrawer = <SideDrawer />;
+    }
 	  return(<div>
+      <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
+        {sideDrawer }
 		  <Header as='h2'>
        <Icon name='folder' />
        <Header.Content>My Projects
