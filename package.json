@@ -10,6 +10,7 @@
     "ckeditor4-react": "^1.2.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
+    "react-images-upload": "^1.2.8",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
     "semantic-ui-css": "^2.4.1",

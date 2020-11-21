@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import { Icon,Card, Grid, Header, Button, Divider, List, Segment, Form, Message, Label, Dropdown} from 'semantic-ui-react';
+import { Icon, Image, Card, Grid, Header, Button, Divider, List, Segment, Form, Message, Label, Dropdown} from 'semantic-ui-react';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import CKEditor from 'ckeditor4-react';
@@ -514,12 +514,14 @@ linkSubmit = async(event) => {
      <Card.Group>
        {this.state.projects.map(el => (
          <Link to = {{pathname : "/Projectpage",project : el.id}}>
-       <Card >
-         <Card.Content>  <Card.Header>{el.name}</Card.Header>
+       <Card>
+	       <Image src= {el.project} wrapped/>
+         <Card.Content> <Card.Header>{el.name}</Card.Header>
          <Card.Meta>Project Number {el.id}</Card.Meta>
-         <Card.Description> {el.description} </Card.Description>
+         <Card.Description> <CKEditor data={el.description} type="inline" readOnly={true} />
+ </Card.Description>
          </Card.Content>
-       </Card>
+	</Card>
        </Link>
        ))}
      </Card.Group>

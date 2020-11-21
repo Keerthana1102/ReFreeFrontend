@@ -81,17 +81,22 @@ class Personalizedfeed extends Component
      </Header>
      <br />
      <br />
-		  <Card.Group>
+	<Card.Group> 
        {this.state.projects.map(el => (
-       <Card href='http://127.0.0.1:3000/'>
+	       <div style={{padding:'5%'}}>
+       <Link to = {{pathname : "/Projectpage",project : el.id}}>
+	    <Card>
+	       <Image src= {el.project} wrapped/>
          <Card.Content> <Card.Header>{el.name}</Card.Header>
          <Card.Meta>Project Number {el.id}</Card.Meta>
          <Card.Description> <CKEditor data={el.description} type="inline" readOnly={true} />
  </Card.Description>
          </Card.Content>
        </Card>
+	    </Link>
+	       </div>
        ))}
-     </Card.Group>
+	</Card.Group>
 </div>
 	  );
   }
