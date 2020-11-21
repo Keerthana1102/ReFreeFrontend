@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import {Icon, Card, Grid, Search, Header,Input} from 'semantic-ui-react'
+import {Icon,  Card, Grid, Search, Header,Input} from 'semantic-ui-react'
 import Toolbar from './Toolbar/Toolbar';
 import SideDrawer from './SideDrawer/SideDrawer';
-import { Router } from 'react-router-dom';
+import { Router, Link } from 'react-router-dom';
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
@@ -39,8 +39,8 @@ export default class Designers extends React.Component{
 	        return null
 	    }
         return(
+		<Link to = {{pathname : "/individualuser" , state:{lookingAt:person.id} }}>
         	<Card
-				href="/profile"
 				image={person.profile_photo}
 				header={person.username}
 				meta={person.workExperience+" yrs"}
@@ -52,6 +52,7 @@ export default class Designers extends React.Component{
 				    </a>
 				}
 			/>
+		</Link>
         );
 	};
 
