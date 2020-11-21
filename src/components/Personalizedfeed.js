@@ -75,8 +75,8 @@ class Personalizedfeed extends Component
         {sideDrawer }
 		  <Header as='h2'>
        <Icon name='folder' />
-       <Header.Content>My Projects
-       <Header.Subheader>View list of projects and click to edit</Header.Subheader>
+       <Header.Content>Personalized Projects
+       <Header.Subheader>View list of personalized projects</Header.Subheader>
        </Header.Content>
      </Header>
      <br />
