@@ -36,8 +36,6 @@ class Profile extends Component
       links : [],
       name : "",
       link : "",
-      follows : [],
-      following : [],
       userlist : [],
     }
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -76,7 +74,7 @@ class Profile extends Component
      console.log(projectdata);
      const projectjson = await projectdata.data;
      this.setState({projects:projectjson})
-	
+  
      const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(companydata);
      const companyjson = await companydata.data;
@@ -88,17 +86,6 @@ class Profile extends Component
      const linkjson = await linkdata.data;
      this.setState({links:linkjson})
 
-     const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
-     console.log(followsdata);
-     const followjson = await followsdata.data;
-     this.setState({follows:followjson})
-
-     const followingdata = await axios({url:'http://127.0.0.1:8000/follow/userfollowing' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
-     console.log(followingdata);
-     const followingjson = await followingdata.data;
-     this.setState({following:followingjson})
- 
-    
      const userresponse = await axios({url:'http://127.0.0.1:8000/users/', withCredentials:true }).then(response=>{return response}).catch(error=>{console.log(error)})
 
      console.log(userresponse.data.results)
@@ -106,15 +93,15 @@ class Profile extends Component
      let count=0;
      for(let user in userresponse.data.results)
      {
-	     console.log(userresponse.data.results[user].id)
-	     console.log(userresponse.data.results[user])
-	     newdict[userresponse.data.results[user].id]=userresponse.data.results[user].username
+       console.log(userresponse.data.results[user].id)
+       console.log(userresponse.data.results[user])
+       newdict[userresponse.data.results[user].id]=userresponse.data.results[user].username
            
-	     
+       
    }
     console.log(newdict)
     this.setState({userlist:newdict})
-	   console.log(this.state.userlist)
+     console.log(this.state.userlist)
   }
 
 
@@ -319,41 +306,6 @@ linkSubmit = async(event) => {
             <input type="text" value={this.state.username}  readOnly/>
           </Form.Field>
 
-	    <Divider horizontal>
-             <Header as='h4'>
-                <Icon name='user outline' />
-                Following
-              </Header>
-          </Divider>
-
-	    <List divided relaxed size='large'>
-       {this.state.follows.map(el => (
-    <List.Item>
-      <List.Icon name='bullseye' size='small' verticalAlign='middle' />
-      <List.Content>
-        <List.Header>{this.state.userlist[el.following_user_id]}</List.Header>
-      </List.Content>
-    </List.Item>
-   ))}
-    </List>
-     <Divider horizontal>
-             <Header as='h4'>
-                <Icon name='user outline' />
-                Followers
-              </Header>
-          </Divider>
-
-            <List divided relaxed size='large'>
-       {this.state.following.map(el => (
-    <List.Item>
-      <List.Icon name='bullseye' size='small' verticalAlign='middle' />
-      <List.Content>
-        <List.Header>{this.state.userlist[el.user_id]}</List.Header>
-      </List.Content>
-    </List.Item>
-   ))}
-    </List>
-
           <div style={{display:'grid' , gridTemplateColumns:'auto auto'}}>
             <div style={{paddingRight:'2%'}}>
               <Form.Field >
@@ -364,14 +316,14 @@ linkSubmit = async(event) => {
             <div style={{ paddingLeft:'2%'}}>
               <Form.Field >
                 <label>Lastname</label>
-	        <input type="text" value={this.state.last_name}  onChange={event => this.handleLastnameChange(event)}/>
+          <input type="text" value={this.state.last_name}  onChange={event => this.handleLastnameChange(event)}/>
               </Form.Field>
-	   </div>
+     </div>
           </div>
           <br />
           <br />
-	
-		 
+  
+     
           <Divider horizontal>
             <Header as='h4'>
               <Icon name='address book' />
@@ -417,9 +369,9 @@ linkSubmit = async(event) => {
        <Button color='green' type="submit" icon >Save Changes</Button></div>
      </Form>
 
-	  <br/>
-	   <br/>
-	 <Divider horizontal>
+    <br/>
+     <br/>
+   <Divider horizontal>
             <Header as='h4'>
               <Icon name='industry' />
               Companies
@@ -433,7 +385,7 @@ linkSubmit = async(event) => {
       <List.Content>
         <List.Header>{el.company}</List.Header>
         <List.Description as='a'>Postion {el.position} ,  
-	<span style={{paddingLeft:'10px' , paddingRight:'10px'}}> <Dropdown name="display" value={el.time}   options = {workOptions} disabled/></span>
+  <span style={{paddingLeft:'10px' , paddingRight:'10px'}}> <Dropdown name="display" value={el.time}   options = {workOptions} disabled/></span>
         <span style={{paddingLeft:'5px'}}> <Button onClick={()=>this.handleDelete(el.id)} icon color='red' size='tiny'><Icon name="trash" /></Button></span>
 </List.Description>
       </List.Content>
@@ -452,19 +404,19 @@ linkSubmit = async(event) => {
                 <label style={{fontWeight:'bold'}}>Company Name</label>
                 <input type="text" value={this.state.company}  onChange={event => this.handleCompanyChange(event)} />
         </Form.Field>
-	<Form.Field >
+  <Form.Field >
                 <label style={{fontWeight:'bold'}}>Positon</label>
                 <input type="text" value={this.state.position}  onChange={event => this.handlePositionChange(event)} />
         </Form.Field>
-	<Form.Field >
+  <Form.Field >
                 <label style={{fontWeight:'bold'}}>Time</label>
                 <Dropdown name="time" value={this.state.time}  fluid search selection options = {workOptions} onChange={(event,data) =>this.handleTimeChange(event , data)}/>
          </Form.Field>
-	 <div style={{padding:'5% 0px 0px 0px', textAlign:'center'}}>
+   <div style={{padding:'5% 0px 0px 0px', textAlign:'center'}}>
        <Button color='green' type="submit" icon >Add Company</Button></div>
        </Form>
-	<br />
-	<br/>
+  <br />
+  <br/>
        <Divider horizontal>
             <Header as='h4'>
               <Icon name='tag' />
@@ -520,7 +472,7 @@ linkSubmit = async(event) => {
          <Card.Description> <CKEditor data={el.description} type="inline" readOnly={true} />
  </Card.Description>
          </Card.Content>
-	</Card>
+  </Card>
        </Link>
        ))}
      </Card.Group>
@@ -541,8 +493,8 @@ class EditorPreview extends Component {
             <div className="editor-preview">
                 <br /><h4>Rendered content</h4>
                 <div dangerouslySetInnerHTML={ { __html: this.props.data } }></div>
-        	<br />
-	</div>
+          <br />
+  </div>
         );
     }
 }

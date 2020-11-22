@@ -49,29 +49,27 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
       }
       renderproject = project => {
         return (
-            <div className = "indproject">
-              <Link to = {{pathname : "/Projectpage",project : project.id}}>
-          <Card 
-        image={project.display}
-        header={<CKEditor data={project.name} type = 'inline' readOnly={true} />}
-        description={<CKEditor data={project.description} type="inline" readOnly={true} />}
-        extra={
-          <div>
-          <a>
-            <Link to = "/individualuser">
-               <i class="users icon"></i>
-               {this.state.userlist[project.user]}
-               </Link>
-               </a>
-               <p></p>
-          {project.creation}
+          <div className = "indproject">
+            <Link to = {{pathname : "/Projectpage",project : project.id}}>
+              <Card 
+                image={project.display}
+                header={<CKEditor data={project.name} type = 'inline' readOnly={true} />}
+                description={<CKEditor data={project.description} type="inline" readOnly={true} />}
+                extra={
+                  <div>
+                  <a>
+                    <Link to = "/individualuser">
+                       <i class="users icon"></i>
+                       {this.state.userlist[project.user]}
+                       </Link>
+                       </a>
+                       <p></p>
+                  {project.creation}
+                  </div>
+                }
+               />
+             </Link>
           </div>
-          
-
-        }
-      />
-      </Link>
-      </div>
       
       
       

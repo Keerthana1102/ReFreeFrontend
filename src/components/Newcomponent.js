@@ -1,7 +1,10 @@
 import axios from 'axios'; 
 
+import { Link, Redirect } from 'react-router-dom';
 import React,{Component} from 'react'; 
 import {Grid,Icon,Header,Form,TextArea,Button} from 'semantic-ui-react';
+import CKEditor from 'ckeditor4-react';
+import PropTypes from 'prop-types';
 import Toolbar from './Toolbar/Toolbar';
 import SideDrawer from './SideDrawer/SideDrawer';
 import ImageUploader from 'react-images-upload';
@@ -19,6 +22,7 @@ class App extends Component {
 			userId: ""
 		};
 		this.onImgChange=this.onImgChange.bind(this)
+		this.onEditorChange=this.onEditorChange.bind(this)
 		this.onSubmit=this.onSubmit.bind(this)
 	}
 	
@@ -41,6 +45,9 @@ class App extends Component {
 		console.log(this.state.upload[this.state.upload.length-1])
 	}; 
 
+	onEditorChange(evt){
+	    this.setState({ description:evt.editor.getData() });
+	}
 	onDesChange =event=>{
 		this.setState({description: event.target.value});
 		console.log(this.state.description)
@@ -76,12 +83,11 @@ class App extends Component {
 	};
 	
 	render() { 
-	let sideDrawer;
-	if(this.state.SideDrawerOpen){
-	  sideDrawer = <SideDrawer />;
-	}
-	
-	return ( 
+		let sideDrawer;
+		if(this.state.SideDrawerOpen){
+		  sideDrawer = <SideDrawer />;
+		}
+		return ( 
 		<div> 
 			<Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
 			{sideDrawer }
@@ -113,10 +119,8 @@ class App extends Component {
 						<div class="ui form" style={{ paddingLeft:'7%'}}>
 						  <div class="field">
 						    <label>Description</label>
-						    <textarea 
-						    placeholder="Explain your project/photo..."
-						    onChange={this.onDesChange}>
-						    </textarea>
+						    <CKEditor data={this.state.description} type="inline"  onChange={this.onEditorChange}/>
+						    <textarea style={{display:'none'}} value={this.state.description}  readOnly onChange={this.onDesChange}/>						    
 						  </div>
 						 	<button class="ui primary button" 
 							  style={{ marginLeft:'47%'}} 
