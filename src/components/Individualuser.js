@@ -65,7 +65,7 @@ class Individualuser extends Component
      this.setState({workExperience:this.state.data.workExperience})
      this.setState({about:this.state.data.about})
 
-     const projectdata = await axios({url:'http://127.0.0.1:8000/projects/projectsuser' , method:'GET', params:{userId:this.props.location.state.lookingAt} , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location="http://127.0.0.1:3000/error"})
+     const projectdata = await axios({url:'http://127.0.0.1:8000/projects/usersproject' , method:'GET', params:{userId:this.props.location.state.lookingAt} , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location="http://127.0.0.1:3000/error"})
      console.log(projectdata);
      const projectjson = await projectdata.data;
      this.setState({projects:projectjson})
@@ -140,6 +140,12 @@ async unfollowUser(data) {
       console.log(this.state.isfollowing)
 	    console.log(this.state.profile_photo)
 }
+drawerToggleClickHandler = () => {
+  this.setState((prevState)=>{
+    return {SideDrawerOpen: !prevState.SideDrawerOpen};
+  });   
+
+}; 
 
 
 
@@ -167,19 +173,16 @@ async unfollowUser(data) {
       value: '3',
     },
     ]
+    let sideDrawer;
+        if(this.state.SideDrawerOpen){
+          sideDrawer = <SideDrawer />;
+        }
+
+          
     return(
       <div>
-        <Grid padded>
-           <Grid.Row color='black'>
-              <Grid.Column width={1}>
-                <Icon name="world" size="big"/>
-              </Grid.Column>
-              <Grid.Column width={15}>
-                <h2>ReFree</h2>
-              </Grid.Column>
-          </Grid.Row>
-        </Grid>
-        <br/>
+          <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
+          {sideDrawer } 
         <br/>
         <div style={{margin:'auto' , paddingLeft:'10%' , paddingRight:'10%'}}>
           <Grid stackable columns={2} divided>
@@ -347,7 +350,9 @@ async unfollowUser(data) {
   </div>
 
   );
+  
   }
+  
 }
 
 

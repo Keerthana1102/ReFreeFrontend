@@ -54,7 +54,7 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
           <Card 
         image={project.display}
         header={<CKEditor data={project.name} type = 'inline' readOnly={true} />}
-        description={<CKEditor data={project.description} type="inline" readOnly={true} />}
+        description={<CKEditor data={project.description} type="inline"  readOnly={true} />}
         extra={
           <div>
           <a>
@@ -64,7 +64,12 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
                </Link>
                </a>
                <p></p>
-          {project.creation}
+      
+          <i class="like icon"></i>
+          {project.likes}
+               <p></p>
+          {(new Date(project.creation).getDate() + "-"+ parseInt(new Date(project.creation).getMonth()+1) +"-"+new Date(project.creation).getFullYear())}
+          
           </div>
           
 
@@ -99,12 +104,14 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
           <div className = "trendingdesigns">
           <h1>Trending Designs</h1>
           <div className = "projects">
+          <Card.Group> 
           {
 					this.state.projects.map(project =>{
 						return this.renderproject(project);
 					}
 					)
 				}
+        </Card.Group>
         </div>
         
            

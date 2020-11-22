@@ -18,6 +18,9 @@ class SideDrawer extends Component {
                 <Link to={"/Designers"}>
                 <SidebarRow title = "Designers"/>
                 </Link>
+                <Link to={"/Favourites"}>
+                <SidebarRow title = "Favourites"/>
+                </Link> 
                 <Link to={"/Profile"}>
                 <SidebarRow title = "Profile"/>
                 </Link> 
