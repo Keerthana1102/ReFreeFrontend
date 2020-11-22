@@ -86,8 +86,7 @@ class Personalizedfeed extends Component
 	       <div style={{padding:'5%'}}>
        <Link to = {{pathname : "/Projectpage",project : el.id}}>
 	    <Card>
-	       <Image src= {el.project} wrapped/>
-         <Card.Content> <Card.Header>{el.name}</Card.Header>
+	       <Card.Content> <Image floated='right' size='mini' src= {el.project} /><Card.Header>{el.name}</Card.Header>
          <Card.Meta>Project Number {el.id}</Card.Meta>
          <Card.Description> <CKEditor data={el.description} type="inline" readOnly={true} />
  </Card.Description>
