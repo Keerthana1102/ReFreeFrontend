@@ -4,15 +4,24 @@ import {Icon,  Card, Grid, Search, Header,Input} from 'semantic-ui-react'
 import Toolbar from './Toolbar/Toolbar';
 import SideDrawer from './SideDrawer/SideDrawer';
 import { Router, Link } from 'react-router-dom';
+import "./Trendingdesigns.css";
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 export default class Designers extends React.Component{
-	state = {
-		persons: [],
-		search:"",
-		SideDrawerOpen : false
-	};
+	constructor (){
+		super();
+		this.state = {
+			persons:[],
+			search:"",
+			follows:[],
+			SideDrawerOpen : false,
+			isLoggedIn: false,
+			userId:""
+		}
+		this.totfol = this.totfol.bind(this);
+	}
+	
 
 	async componentDidMount(){
 		const re = await axios({url:'http://127.0.0.1:8000/users/currentuser', method:'get' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/error"})
@@ -31,6 +40,13 @@ export default class Designers extends React.Component{
 	    this.setState({persons:json.results});
 	}
 
+	async totfol(el){
+		const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:el} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+	     console.log(followsdata);
+	     const followjson = await followsdata.data;
+	     this.setState({follows:followjson})
+	}
+
 	renderlist =person => {
 		const {persons,search}=this.state;
 		var lowercase=String(search).toLowerCase();
@@ -38,7 +54,7 @@ export default class Designers extends React.Component{
 		if( search !== "" && l1.indexOf(lowercase) === -1 ){
 	        return null
 	    }
-        return(
+        return(<div className = "indproject">
 		<Link to = {{pathname : "/individualuser" , state:{lookingAt:person.id} }}>
         	<Card
 				image={person.profile_photo}
@@ -48,11 +64,12 @@ export default class Designers extends React.Component{
 				extra={
 					<a>
 				       <i class="users icon"></i>
-				       2 Members
+				       {()=>this.totfol(person.id)}
+				       {this.state.follows.length}
 				    </a>
 				}
 			/>
-		</Link>
+		</Link></div>
         );
 	};
 
@@ -96,13 +113,13 @@ export default class Designers extends React.Component{
 			  </Grid.Row>
 			  <br/>
 			  <Grid.Row>
-				<Card.Group>{
+				<div className = "projects">{
 					persons.map(person =>{
 						return this.renderlist(person);
 					}	
 					)
 				}
-				</Card.Group>
+				</div>
 			  </Grid.Row>
 			  </div>
 			</Grid>

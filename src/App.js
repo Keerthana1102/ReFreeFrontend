@@ -10,6 +10,7 @@ import Done from './components/Done';
 import Error from './components/Error';
 import Designers from './components/Designers';
 import Newproject from './components/Newproject';
+import Editproject from './components/Editproject';
 import Newcomponent from './components/Newcomponent';
 import Individualuser from './components/Individualuser';
 import Trendingdesigns from './components/Trendingdesigns'
@@ -29,6 +30,7 @@ function App() {
 	  	<Route path="/error" component={Error} />
 		<Route path = "/Designers" component = {Designers} />
 		<Route path = "/Newproject" component = {Newproject} />
+		<Route path = "/Editproject" component = {Editproject} />
 		<Route path = "/Trending" component = {Trendingdesigns} />
 	  	<Route path="/individualuser" component={Individualuser} />
 	    <Route path="/personalizedfeed" component={Personalizedfeed} />
