@@ -515,7 +515,7 @@ linkSubmit = async(event) => {
        {this.state.projects.map(el => (
          <Link to = {{pathname : "/Projectpage",project : el.id}}>
        <Card>
-	       <Image src= {el.project} wrapped/>
+	       <Image src= {el.display} wrapped/>
          <Card.Content> <Card.Header>{el.name}</Card.Header>
          <Card.Meta>Project Number {el.id}</Card.Meta>
          <Card.Description> <CKEditor data={el.description} type="inline" readOnly={true} />

@@ -329,12 +329,14 @@ async unfollowUser(data) {
      <br />
      <Card.Group>
        {this.state.projects.map(el => (
-       <Card href='http://127.0.0.1:3000/'>
+       <Link to = {{pathname : "/Projectpage",project : el.id}}>
+       <Card>
          <Card.Content>  <Card.Header>{el.name}</Card.Header>
          <Card.Meta>Project Number {el.id}</Card.Meta>
          <Card.Description> {el.description} </Card.Description>
          </Card.Content>
        </Card>
+	</Link>
        ))}
      </Card.Group>
      </Grid.Column>
