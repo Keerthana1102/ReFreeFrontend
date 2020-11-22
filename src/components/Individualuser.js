@@ -12,9 +12,9 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 class Individualuser extends Component
 {
-  constructor()
+  constructor(props)
   {
-    super();
+    super(props);
     this.state = { 
       isLoggedIn : false,
       userId : "",
@@ -52,7 +52,8 @@ class Individualuser extends Component
      else {
        this.setState({isLoggedIn:true});
      }
-     const response = await axios({url:`http://127.0.0.1:8000/users/${js.userId}`,method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/error"})
+	  console.log(this.props)
+     const response = await axios({url:`http://127.0.0.1:8000/users/${this.props.location.state.lookingAt}`,method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/error"})
      const json = await response.data;
      this.setState({data:json});
      console.log(json);
@@ -64,22 +65,22 @@ class Individualuser extends Component
      this.setState({workExperience:this.state.data.workExperience})
      this.setState({about:this.state.data.about})
 
-     const projectdata = await axios({url:'http://127.0.0.1:8000/projects/userprojects' , method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location="http://127.0.0.1:3000/error"})
+     const projectdata = await axios({url:'http://127.0.0.1:8000/projects/projectsuser' , method:'GET', params:{userId:this.props.location.state.lookingAt} , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location="http://127.0.0.1:3000/error"})
      console.log(projectdata);
      const projectjson = await projectdata.data;
      this.setState({projects:projectjson})
-     const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , params:{userId:this.props.location.state.lookingAt} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(companydata);
      const companyjson = await companydata.data;
      this.setState({companies:companyjson})
 
 
-     const linkdata = await axios({url:'http://127.0.0.1:8000/socialLinks/userlinks' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     const linkdata = await axios({url:'http://127.0.0.1:8000/socialLinks/userlinks' , method:'GET' , params:{userId:this.props.location.state.lookingAt} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(linkdata);
      const linkjson = await linkdata.data;
      this.setState({links:linkjson})
 
-     const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.props.location.state.lookingAt} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(followsdata);
      const followsjson = await followsdata.data;
      this.setState({follows:followsjson})
@@ -99,10 +100,10 @@ class Individualuser extends Component
 async followUser(data) {
   const following_user_id = data;
    console.log(following_user_id);
-  let formData = { user_id:this.state.userId ,following_user_id: following_user_id}
+  let formData = { user_id:this.props.location.state.lookingAt ,following_user_id: following_user_id}
     const res = await axios({url:'http://127.0.0.1:8000/follow/' ,method:'POST', data:formData , withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
 
-  const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+  const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.props.location.state.lookingAt} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(followsdata);
      const followsjson = await followsdata.data;
      this.setState({follows:followsjson})
@@ -123,7 +124,7 @@ async unfollowUser(data) {
    console.log(following_user_id);
     const res = await axios({url:`http://127.0.0.1:8000/follow/${this.state.followId}` ,method:'DELETE',  withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
 
-  const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+  const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.props.location.state.lookingAt} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(followsdata);
      const followsjson = await followsdata.data;
      this.setState({follows:followsjson})
@@ -328,12 +329,14 @@ async unfollowUser(data) {
      <br />
      <Card.Group>
        {this.state.projects.map(el => (
-       <Card href='http://127.0.0.1:3000/'>
+       <Link to = {{pathname : "/Projectpage",project : el.id}}>
+       <Card>
          <Card.Content>  <Card.Header>{el.name}</Card.Header>
          <Card.Meta>Project Number {el.id}</Card.Meta>
          <Card.Description> {el.description} </Card.Description>
          </Card.Content>
        </Card>
+	</Link>
        ))}
      </Card.Group>
      </Grid.Column>

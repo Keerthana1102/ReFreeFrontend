@@ -75,23 +75,27 @@ class Personalizedfeed extends Component
         {sideDrawer }
 		  <Header as='h2'>
        <Icon name='folder' />
-       <Header.Content>My Projects
-       <Header.Subheader>View list of projects and click to edit</Header.Subheader>
+       <Header.Content>Personalized Projects
+       <Header.Subheader>View list of personalized projects</Header.Subheader>
        </Header.Content>
      </Header>
      <br />
      <br />
-		  <Card.Group>
+	<Card.Group> 
        {this.state.projects.map(el => (
-       <Card href='http://127.0.0.1:3000/'>
-         <Card.Content> <Card.Header>{el.name}</Card.Header>
+	       <div style={{padding:'5%'}}>
+       <Link to = {{pathname : "/Projectpage",project : el.id}}>
+	    <Card>
+	       <Card.Content> <Image floated='right' size='mini' src= {el.project} /><Card.Header>{el.name}</Card.Header>
          <Card.Meta>Project Number {el.id}</Card.Meta>
          <Card.Description> <CKEditor data={el.description} type="inline" readOnly={true} />
  </Card.Description>
          </Card.Content>
        </Card>
+	    </Link>
+	       </div>
        ))}
-     </Card.Group>
+	</Card.Group>
 </div>
 	  );
   }
