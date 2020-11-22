@@ -333,7 +333,8 @@ async unfollowUser(data) {
        <Card>
          <Card.Content>  <Card.Header>{el.name}</Card.Header>
          <Card.Meta>Project Number {el.id}</Card.Meta>
-         <Card.Description> {el.description} </Card.Description>
+         <Card.Description><CKEditor data={el.description} type="inline" readOnly={true} />
+ </Card.Description>
          </Card.Content>
        </Card>
 	</Link>
