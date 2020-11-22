@@ -5,19 +5,37 @@ import {Grid,Icon,Header,Form,TextArea,Button} from 'semantic-ui-react';
 import Toolbar from './Toolbar/Toolbar';
 import SideDrawer from './SideDrawer/SideDrawer';
 import ImageUploader from 'react-images-upload';
+axios.defaults.xsrfCookieName = 'frontend_csrftoken'
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 class App extends Component { 
 
-	constructor(props){
-		super(props)
+	constructor(){
+		super()
 		this.state = { 
 			upload: [],
-			description: ""
+			description: "",
+			isLoggedIn: false,
+			userId: ""
 		};
 		this.onImgChange=this.onImgChange.bind(this)
 		this.onSubmit=this.onSubmit.bind(this)
 	}
-	 
+	
+	async componentDidMount(){
+		const re = await axios({url:'http://127.0.0.1:8000/users/currentuser', method:'get' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/error"})
+	    console.log(re);
+	    const js = await re.data;
+	    this.setState({userId:js.userId});
+	    console.log(this.state.userId);
+	    if(this.state.userId==0) {
+	        window.location.href="http://127.0.0.1:3000/";
+	    }
+	    else {
+	       this.setState({isLoggedIn:true});
+	    }
+	}
+
 	onImgChange (Imgs,ImgUrl) { 
 		this.setState({ upload: this.state.upload.concat(Imgs) }); 
 		console.log(this.state.upload[this.state.upload.length-1])
@@ -28,11 +46,17 @@ class App extends Component {
 		console.log(this.state.description)
 	}
 	
-	onSubmit = () => { 
+	onSubmit = async(event) => { 
+		event.preventDefault()
 		const formData=new FormData();
-		formData.append(
-			"upload",this.state.upload[this.state.upload.length-1]
-		);
+		if(this.state.upload.length==0) {
+			formData.append("upload","");
+		}
+		else{
+			formData.append(
+				"upload",this.state.upload[this.state.upload.length-1]
+			);
+		}
 		formData.append(
 			"description",this.state.description
 		);
@@ -76,11 +100,11 @@ class App extends Component {
 
 				        <div style={{ paddingLeft:'7%'}}> 
 				        	<ImageUploader
-				        		withIcon={false}
+				        		withIcon={true}
 				        		buttonText="Upload Image"
 				        		onChange={this.onImgChange}
 				        		maxFileSize={12000000000}
-				        		label={"Max Img size:12gb, accepted types .jpg, .png, .gif"}
+				        		label={"Max Img size:12gb, accepted types .jpg, .png, .gif . After uploading preview can be removed by tapping the cross"}
 				        		withPreview={true}
 				        		singleImage={true}
 				        	/>
@@ -96,7 +120,7 @@ class App extends Component {
 						  </div>
 						 	<button class="ui primary button" 
 							  style={{ marginLeft:'47%'}} 
-							  onClick={this.onSubmit}>
+							  onClick={event=> this.onSubmit(event)}>
 							  Submit
 							</button>
 						</div>

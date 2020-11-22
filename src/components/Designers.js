@@ -11,7 +11,9 @@ export default class Designers extends React.Component{
 	state = {
 		persons: [],
 		search:"",
-		SideDrawerOpen : false
+		SideDrawerOpen : false,
+		isLoggedIn: false,
+		userId:""
 	};
 
 	async componentDidMount(){
