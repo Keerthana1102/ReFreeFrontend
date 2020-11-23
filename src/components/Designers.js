@@ -113,6 +113,7 @@ export default class Designers extends React.Component{
 			  </Grid.Row>
 			  <br/>
 			  <Grid.Row>
+			  <Card.Group>
 				<div className = "projects">{
 					persons.map(person =>{
 						return this.renderlist(person);
@@ -120,7 +121,8 @@ export default class Designers extends React.Component{
 					)
 				}
 				</div>
-			  </Grid.Row>
+			  </Card.Group>
+			</Grid.Row>
 			  </div>
 			</Grid>
 			</div>
