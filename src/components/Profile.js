@@ -6,6 +6,7 @@ import CKEditor from 'ckeditor4-react';
 import PropTypes from 'prop-types';
 import Toolbar from './Toolbar/Toolbar';
 import SideDrawer from './SideDrawer/SideDrawer';
+import "./Trendingdesigns.css";
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
@@ -302,11 +303,19 @@ linkSubmit = async(event) => {
               </Header>
           </Divider>
 
-          <Form.Field >
-            <label >Username</label>
-            <input type="text" value={this.state.username}  readOnly/>
-          </Form.Field>
-
+          <div style={{display:'grid' , gridTemplateColumns:'auto auto'}}>
+      <div style={{paddingRight:'2%'}}>
+    <Form.Field>
+            <label style={{fontWegiht:'bold'}}>Username</label>
+            <input type="text" value={this.state.username} readOnly/>
+    </Form.Field>
+      </div>
+      <div style={{paddingLeft:'2%'}}>
+      <label style={{fontWeight:'bold'}}>Profile Photo</label>
+      {this.state.data.profile_photo && <Image src={this.state.data.profile_photo} size="small" />}
+      {!this.state.data.profile_photo && <div><Icon name="user outline" size="huge" /></div> }
+      </div>
+      </div>
           <div style={{display:'grid' , gridTemplateColumns:'auto auto'}}>
             <div style={{paddingRight:'2%'}}>
               <Form.Field >
@@ -321,6 +330,9 @@ linkSubmit = async(event) => {
               </Form.Field>
      </div>
           </div>
+
+          <br/>
+          
           <br />
           <br />
   
@@ -473,7 +485,7 @@ linkSubmit = async(event) => {
      <Card.Group>
        {this.state.projects.map(el => (
         <div style={{padding:10}} >
-         <Link to = {{pathname : "/Projectpage",project : el.id}}>
+         <Link to = {{pathname : "/Editproject",project : el.id}}>
        <Card>
          <Card.Content><Image floated='right' size='mini' src= {el.display} /> <Card.Header>{el.name}</Card.Header>
          <Card.Meta>Project Number {el.id}</Card.Meta>

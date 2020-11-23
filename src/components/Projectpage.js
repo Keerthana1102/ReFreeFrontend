@@ -139,22 +139,22 @@ async unLikeProject(data) {
       <div>
       <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
       {sideDrawer }
-      <br/>
-        <div style={{padding:'5%'}}>
-	    <div style={{margin:'auto' , width:'100%' ,textAlign:'center'}}><h1 style={{textAlign:'center'}}>{this.state.data.name}</h1>
-	    {!this.state.hasLiked && <Button color='green' onClick={()=>this.likeProject(this.state.data.id)} >Like</Button> }
-            {this.state.hasLiked && <Button color='red' onClick={()=>this.unLikeProject(this.state.data.id)} >Remove Like</Button> }
-	    </div>
-	    <h3>Description</h3>
-	    <CKEditor data={this.state.data.description} type="inline" readOnly={true} />
+      
+        <div style={{padding:'2%'}}>
+  	    <div style={{margin:'auto' , width:'100%' ,textAlign:'center'}}><h1 style={{textAlign:'center'}}>{this.state.data.name}</h1>
+  	    {!this.state.hasLiked && <Button color='green' onClick={()=>this.likeProject(this.state.data.id)} >Like</Button> }
+              {this.state.hasLiked && <Button color='red' onClick={()=>this.unLikeProject(this.state.data.id)} >Remove Like</Button> }
+  	    </div>
+  	    <h3>Description</h3>
+  	    <CKEditor data={this.state.data.description} type="inline" readOnly={true} />
         <h3>Components</h3>
         <br/>
         <div >
         {this.state.components.map((cmp) =>
-        cmp.upload === null ? <p>{cmp.description}</p> :
+        cmp.upload === null ? <CKEditor data={cmp.description} type="inline" readOnly={true} /> :
         <div className = "component">
             <img src = {cmp.upload} ></img>
-            <p>{cmp.description}</p>
+            <CKEditor data={cmp.description} type="inline" readOnly={true} />
             </div>
         )}
         </div>
