@@ -20,6 +20,7 @@ import Follow from './components/Follow';
 import Favourites from './components/Favourites';
 import Landingpage from './components/Landingpage';
 import Unloggedproject from './components/Unloggedproject';
+import Unloggeduser from './components/Unloggeduser';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
 	  	<Route path="/follow" component={Follow} />
 	  	<Route path="/Landingpage" component={Landingpage} />
 		<Route path="/Unloggedproject" component={Unloggedproject} />
+	  	<Route path="/Unloggeduser" component={Unloggeduser} />
 	  </Switch>
 	</div>
     </BrowserRouter>
