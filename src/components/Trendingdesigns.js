@@ -58,7 +58,7 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
         extra={
           <div>
           <a>
-            <Link to = "/individualuser">
+            <Link to = {{pathname : "/individualuser" , state:{lookingAt:project.user} }}>
                <i class="users icon"></i>
                {this.state.userlist[project.user]}
                </Link>
