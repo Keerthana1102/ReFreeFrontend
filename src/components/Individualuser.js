@@ -80,14 +80,18 @@ class Individualuser extends Component
      const linkjson = await linkdata.data;
      this.setState({links:linkjson})
 
-     const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.props.location.state.lookingAt} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(followsdata);
      const followsjson = await followsdata.data;
      this.setState({follows:followsjson})
 	this.setState({isfollowing:false})
      for(let user in this.state.follows)
      {
-	     if(this.state.follows[user].following_user_id == this.state.userId)
+	     
+	     console.log(this.props.location.state.lookingAt)
+	     console.log(this.state.follows[user].following_user_id)
+	     console.log(this.state.follows[user].following_user_id==this.props.location.state.lookingAt)
+	     if(this.state.follows[user].following_user_id == this.props.location.state.lookingAt)
 	     {
 		     this.setState({isfollowing:true})
 		     this.setState({followId : this.state.follows[user].id})
@@ -100,17 +104,17 @@ class Individualuser extends Component
 async followUser(data) {
   const following_user_id = data;
    console.log(following_user_id);
-  let formData = { user_id:this.props.location.state.lookingAt ,following_user_id: following_user_id}
+  let formData = { user_id:this.state.userId ,following_user_id: this.props.location.state.lookingAt}
     const res = await axios({url:'http://127.0.0.1:8000/follow/' ,method:'POST', data:formData , withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
 
-  const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.props.location.state.lookingAt} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+  const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(followsdata);
      const followsjson = await followsdata.data;
      this.setState({follows:followsjson})
 	this.setState({isfollowing:false})
 	for(let user in this.state.follows)
      {
-             if(this.state.follows[user].following_user_id == this.state.userId)
+             if(this.state.follows[user].following_user_id == this.props.location.state.lookingAt)
              {
                      this.setState({isfollowing:true})
                      this.setState({followId:this.state.follows[user].id})
@@ -124,14 +128,14 @@ async unfollowUser(data) {
    console.log(following_user_id);
     const res = await axios({url:`http://127.0.0.1:8000/follow/${this.state.followId}` ,method:'DELETE',  withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
 
-  const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.props.location.state.lookingAt} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+  const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(followsdata);
      const followsjson = await followsdata.data;
      this.setState({follows:followsjson})
         this.setState({isfollowing:false})
 	     for(let user in this.state.follows)
      {
-             if(this.state.follows[user].following_user_id == this.state.userId)
+             if(this.state.follows[user].following_user_id == this.props.location.state.lookingAt)
              {
                      this.setState({isfollowing:true})
                      this.setState({followId:this.state.follows[user].id})
