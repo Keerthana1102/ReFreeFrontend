@@ -331,7 +331,7 @@ drawerToggleClickHandler = () => {
      <br />
      <br />
      <Card.Group>
-       {this.state.projects.map(el => (
+       {this.state.projects.map(el => (<div style={{padding:10}} >
        <Link to = {{pathname : "/Projectpage",project : el.id}}>
        <Card>
          <Card.Content>  <Card.Header>{el.name}</Card.Header>
@@ -340,7 +340,7 @@ drawerToggleClickHandler = () => {
  </Card.Description>
          </Card.Content>
        </Card>
-	</Link>
+	</Link></div>
        ))}
      </Card.Group>
      </Grid.Column>
