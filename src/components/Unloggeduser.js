@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
-class Individualuser extends Component
+class Unloggeduser extends Component
 {
   constructor(props)
   {
@@ -303,5 +303,5 @@ EditorPreview.defaultProps = {
 EditorPreview.propTypes = {
     data: PropTypes.string
 };
-export default Individualuser;
+export default Unloggeduser;
  
