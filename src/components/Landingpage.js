@@ -39,7 +39,7 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
       renderproject = project => {
         return (
             <div className = "indproject">
-              <Link to = {{pathname : "/Projectpage",project : project.id}}>
+              <Link to = {{pathname : "/Unloggedproject",project : project.id}}>
           <Card 
         image={project.display}
         header={<CKEditor data={project.name} type = 'inline' readOnly={true} />}
