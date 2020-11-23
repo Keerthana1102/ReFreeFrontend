@@ -18,13 +18,17 @@ import Personalizedfeed from './components/Personalizedfeed';
 import Projectpage from './components/Projectpage';
 import Follow from './components/Follow';
 import Favourites from './components/Favourites';
+import Landingpage from './components/Landingpage';
+import Unloggedproject from './components/Unloggedproject';
+import Unloggeduser from './components/Unloggeduser';
+import Unloggeddesigner from './components/Unloggeddesigner';
 
 function App() {
   return (
     <BrowserRouter>
 	<div>
 	  <Switch>
-	  	<Route path="/" component={Login} exact/>
+	  	<Route path="/login" component={Login} exact/>
 	  	<Route path="/signup" component={Signup} />
         <Route path="/profile" component={Profile} />
 	  	<Route path="/done" component={Done} />
@@ -33,12 +37,15 @@ function App() {
 		<Route path = "/Newproject" component = {Newproject} />
 		<Route path = "/Editproject" component = {Editproject} />
 		<Route path = "/Trending" component = {Trendingdesigns} />
-		<Route path = "/Favourites" component = {Favourites} />
 	  	<Route path="/individualuser" component={Individualuser} />
 	    <Route path="/personalizedfeed" component={Personalizedfeed} />
 		<Route path="/Projectpage" component = {Projectpage}/>
 		<Route path = "/Newcomponent" component = {Newcomponent} />
-	  	<Route path="/follow" component={Follow} />
+	  	<Route path="/Favourites" component={Follow} />
+	  	<Route path="/" component={Landingpage} />
+		<Route path="/Unloggedproject" component={Unloggedproject} />
+	  	<Route path="/Unloggeduser" component={Unloggeduser} />
+	  	<Route path="/unloggeddesigner" component={Unloggeddesigner} />
 	  </Switch>
 	</div>
     </BrowserRouter>

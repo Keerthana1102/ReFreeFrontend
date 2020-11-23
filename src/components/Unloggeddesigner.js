@@ -1,14 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import {Dropdown, Label, Icon,  Card, Grid, Search, Header,Input} from 'semantic-ui-react'
-import Toolbar from './Toolbar/Toolbar';
-import SideDrawer from './SideDrawer/SideDrawer';
+import UnToolbar from './unloggedtoolbar/untoolbar';
 import { Router, Link } from 'react-router-dom';
 import "./Trendingdesigns.css";
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
-export default class Designers extends React.Component{
+export default class Unloggedesigner extends React.Component{
 	constructor (){
 		super();
 		this.state = {
@@ -20,22 +19,11 @@ export default class Designers extends React.Component{
 			userId:"",
 			workExperience:4,
 		}
-		
+
 	}
 	
 
 	async componentDidMount(){
-		const re = await axios({url:'http://127.0.0.1:8000/users/currentuser', method:'get' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/error"})
-	    console.log(re);
-	    const js = await re.data;
-	    this.setState({userId:js.userId});
-	    console.log(this.state.userId);
-	    if(this.state.userId==0) {
-	        window.location.href="http://127.0.0.1:3000/";
-	    }
-	    else {
-	       this.setState({isLoggedIn:true});
-	    }
 	    const response = await axios({url:`http://127.0.0.1:8000/users/`,method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/"})
 	    const json = await response.data;
 	    this.setState({persons:json.results});
@@ -53,10 +41,7 @@ export default class Designers extends React.Component{
     this.setState({workExperience:opt});
 	    console.log(this.state.workExperience)
   }
-	
 
-
-	
 
 	
 
@@ -69,17 +54,17 @@ export default class Designers extends React.Component{
 	    }
         return(
 		<div className = "indproject">
-		<Link to = {{pathname : "/individualuser" , state:{lookingAt:person.id} }}>
+		<Link to = {{pathname : "/Unloggeduser" , state:{lookingAt:person.id} }}>
         	<Card
 				image={person.profile_photo}
 				header={person.username}
 				meta={person.workExperience+" yrs"}
 				description={person.about}
 				extra={
-					<div>
+					<a>
 				       <i class="users icon"></i>
 				       {this.state.follows[person.id]}
-					   </div>
+				    </a>
 				}
 			/>
 		</Link></div>
@@ -89,16 +74,9 @@ export default class Designers extends React.Component{
 	onChange=e=>{
 		this.setState({search:e.target.value});
 	};
-	drawerToggleClickHandler = () => {
-		this.setState((prevState)=>{
-		  return {SideDrawerOpen: !prevState.SideDrawerOpen};
-		});   
 	
-	  };
 
-	render()
-	{
-
+	render(){
 		const workOptions = [
     {
       key: '0',
@@ -126,14 +104,10 @@ export default class Designers extends React.Component{
 	value:'4',
      },]
 		const {persons,search}=this.state;
-		let sideDrawer;
-		if(this.state.SideDrawerOpen){
-			sideDrawer = <SideDrawer />;
-		}
+	
 		return(
 			<div>
-			<Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
-            { sideDrawer }
+			<UnToolbar  />
 			<Grid padded>
 	          <Grid.Row width = {4}>
 	          	<div style={{ paddingLeft:'1%' }}>
@@ -180,3 +154,4 @@ export default class Designers extends React.Component{
 		)
 	}
 }
+
