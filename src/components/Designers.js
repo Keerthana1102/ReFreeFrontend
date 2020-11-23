@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import {Icon,  Card, Grid, Search, Header,Input} from 'semantic-ui-react'
+import {Dropdown, Label, Icon,  Card, Grid, Search, Header,Input} from 'semantic-ui-react'
 import Toolbar from './Toolbar/Toolbar';
 import SideDrawer from './SideDrawer/SideDrawer';
 import { Router, Link } from 'react-router-dom';
@@ -17,7 +17,8 @@ export default class Designers extends React.Component{
 			follows:[],
 			SideDrawerOpen : false,
 			isLoggedIn: false,
-			userId:""
+			userId:"",
+			workExperience:4,
 		}
 		this.totfol = this.totfol.bind(this);
 	}
@@ -40,6 +41,13 @@ export default class Designers extends React.Component{
 	    this.setState({persons:json.results});
 	}
 
+    handleWorkexperienceChange=(event , data) => {
+    let  opt= data.value;
+    this.setState({workExperience:opt});
+	    console.log(this.state.workExperience)
+  }
+
+
 	async totfol(el){
 		const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:el} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
 	     console.log(followsdata);
@@ -54,7 +62,8 @@ export default class Designers extends React.Component{
 		if( search !== "" && l1.indexOf(lowercase) === -1 ){
 	        return null
 	    }
-        return(<div className = "indproject">
+        return(
+		<div className = "indproject">
 		<Link to = {{pathname : "/individualuser" , state:{lookingAt:person.id} }}>
         	<Card
 				image={person.profile_photo}
@@ -84,6 +93,32 @@ export default class Designers extends React.Component{
 	  };
 
 	render(){
+		const workOptions = [
+    {
+      key: '0',
+      text: '<1 year',
+      value: '0',
+    },
+    {
+      key: '1',
+      text: '1-2 years',
+      value: '1',
+    },
+    {
+      key: '2',
+      text: '2-5 years',
+      value: '2',
+    },
+    {
+      key: '3',
+      text: '>5 years',
+      value: '3',
+    },
+    {
+	key:'4',
+	text:'No filter',
+	value:'4',
+     },]
 		const {persons,search}=this.state;
 		let sideDrawer;
 		if(this.state.SideDrawerOpen){
@@ -106,6 +141,9 @@ export default class Designers extends React.Component{
 	          </Grid.Row>
 	          <div style={{ paddingLeft:'1%' }}>
 	          <Grid.Row >
+	
+          <span style={{padding:'2%'}}><Dropdown name="workExperience" value={this.state.workExperience} button  icon='filter' text='Work Experience' labeled className='icon' selection options = {workOptions} onChange={(event,data) =>this.handleWorkexperienceChange(event , data)}/>
+</span>
 				<Input
                   icon="search"
                   onChange={this.onChange}
@@ -114,12 +152,19 @@ export default class Designers extends React.Component{
 			  <br/>
 			  <Grid.Row>
 			  <Card.Group>
-				<div className = "projects">{
-					persons.map(person =>{
+				<div className = "projects">
+			{this.state.workExperience!=4 && persons.filter(per => per.workExperience == this.state.workExperience).map(person =>{
 						return this.renderlist(person);
 					}	
 					)
-				}
+				} 
+			{this.state.workExperience==4 &&
+			persons.filter(per => per.workExperience != this.state.workExperience).map(person =>{
+                                                return this.renderlist(person);
+                                        }
+                                        )
+                                }
+
 				</div>
 			  </Card.Group>
 			</Grid.Row>
