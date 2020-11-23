@@ -18,6 +18,10 @@ import Personalizedfeed from './components/Personalizedfeed';
 import Projectpage from './components/Projectpage';
 import Follow from './components/Follow';
 import Favourites from './components/Favourites';
+import Landingpage from './components/Landingpage';
+import Unloggedproject from './components/Unloggedproject';
+import Unloggeduser from './components/Unloggeduser';
+import Unloggeddesigner from './components/Unloggeddesigner';
 
 function App() {
   return (
@@ -39,6 +43,10 @@ function App() {
 		<Route path="/Projectpage" component = {Projectpage}/>
 		<Route path = "/Newcomponent" component = {Newcomponent} />
 	  	<Route path="/follow" component={Follow} />
+	  	<Route path="/Landingpage" component={Landingpage} />
+		<Route path="/Unloggedproject" component={Unloggedproject} />
+	  	<Route path="/Unloggeduser" component={Unloggeduser} />
+	  	<Route path="/Unloggeddesigner" component={Unloggeddesigner} />
 	  </Switch>
 	</div>
     </BrowserRouter>

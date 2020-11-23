@@ -8,7 +8,7 @@ import "./Trendingdesigns.css";
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
-export default class Designers extends React.Component{
+export default class Unloggedesigner extends React.Component{
 	constructor (){
 		super();
 		this.state = {
@@ -25,17 +25,6 @@ export default class Designers extends React.Component{
 	
 
 	async componentDidMount(){
-		const re = await axios({url:'http://127.0.0.1:8000/users/currentuser', method:'get' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/error"})
-	    console.log(re);
-	    const js = await re.data;
-	    this.setState({userId:js.userId});
-	    console.log(this.state.userId);
-	    if(this.state.userId==0) {
-	        window.location.href="http://127.0.0.1:3000/";
-	    }
-	    else {
-	       this.setState({isLoggedIn:true});
-	    }
 	    const response = await axios({url:`http://127.0.0.1:8000/users/`,method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/"})
 	    const json = await response.data;
 	    this.setState({persons:json.results});
@@ -49,7 +38,7 @@ export default class Designers extends React.Component{
 
 
 	async totfol(el){
-		const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:el} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+		const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:el} }).then(response=>{return response}).catch(error=>{console.log(error)})
 	     console.log(followsdata);
 	     const followjson = await followsdata.data;
 	     this.setState({follows:followjson})
@@ -64,7 +53,7 @@ export default class Designers extends React.Component{
 	    }
         return(
 		<div className = "indproject">
-		<Link to = {{pathname : "/individualuser" , state:{lookingAt:person.id} }}>
+		<Link to = {{pathname : "/Unloggeduser" , state:{lookingAt:person.id} }}>
         	<Card
 				image={person.profile_photo}
 				header={person.username}
@@ -174,3 +163,4 @@ export default class Designers extends React.Component{
 		)
 	}
 }
+

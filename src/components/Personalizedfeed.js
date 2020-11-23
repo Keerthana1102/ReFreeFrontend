@@ -44,7 +44,7 @@ class Personalizedfeed extends Component
      for(let user in this.state.following)
      {
 	     console.log(this.state.following[user].following_user_id)
-             const projectdata = await axios({url:'http://127.0.0.1:8000/projects/userprojects' , method:'GET' , params:{userId:this.state.following[user].following_user_id} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+             const projectdata = await axios({url:'http://127.0.0.1:8000/projects/projectsuser' , method:'GET' , params:{userId:this.state.following[user].following_user_id} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(projectdata);
      const projectjson = await projectdata.data;
 	     console.log(projectjson)
