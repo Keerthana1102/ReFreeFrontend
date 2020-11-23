@@ -69,19 +69,16 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
           {project.likes}
                <p></p>
           {(new Date(project.creation).getDate() + "-"+ parseInt(new Date(project.creation).getMonth()+1) +"-"+new Date(project.creation).getFullYear())}
-          
           </div>
-          
-
         }
-      />
-      </Link>
-      </div>
+        />
+        </Link>
+        </div>
       
       
       
-      );
-      };
+      )
+      }
         
       drawerToggleClickHandler = () => {
         this.setState((prevState)=>{

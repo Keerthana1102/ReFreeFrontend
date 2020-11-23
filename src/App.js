@@ -17,6 +17,7 @@ import Trendingdesigns from './components/Trendingdesigns'
 import Personalizedfeed from './components/Personalizedfeed';
 import Projectpage from './components/Projectpage';
 import Follow from './components/Follow';
+import Favourites from './components/Favourites';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
 		<Route path = "/Newproject" component = {Newproject} />
 		<Route path = "/Editproject" component = {Editproject} />
 		<Route path = "/Trending" component = {Trendingdesigns} />
+		<Route path = "/Favourites" component = {Favourites} />
 	  	<Route path="/individualuser" component={Individualuser} />
 	    <Route path="/personalizedfeed" component={Personalizedfeed} />
 		<Route path="/Projectpage" component = {Projectpage}/>
