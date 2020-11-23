@@ -89,6 +89,7 @@ export default class App extends Component {
 			axios({ url:'http://127.0.0.1:8000/projects/' , method:'POST' , data:formData , withCredentials:true })
 	          .then(response=>{console.log(response);})
 	          .catch(error=>{console.log(error);})
+	        window.location.href="http://127.0.0.1:3000/profile";
 		}		
 	}; 
 
@@ -145,7 +146,7 @@ export default class App extends Component {
 							   	<br/>
 							    <button class="ui primary button" 
 								  style={{ marginLeft:'47%'}} 
-								  onClick={event=> this.onSubmit(event)}>
+								  onClick={event=> this.onSubmit(event)} >
 								  Submit
 								</button>
 								{this.state.isError && <Message negative><Message.Header>Please fill all required fields</Message.Header></Message>}

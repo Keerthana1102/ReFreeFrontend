@@ -286,6 +286,7 @@ linkSubmit = async(event) => {
           <Grid stackable columns={2} divided>
           <Grid.Row>
           <Grid.Column>
+
           <Header as='h2'>
             <Icon name='user' />
             <Header.Content>My Profile 
@@ -455,11 +456,17 @@ linkSubmit = async(event) => {
 
      </Grid.Column>
      <Grid.Column> 
+     <Button icon labelPosition='left' color="teal" floated="right" href="/newproject" >
+        New project
+        <Icon name='plus' />
+      </Button>
      <Header as='h2'>
        <Icon name='folder' />
        <Header.Content>My Projects
        <Header.Subheader>View list of projects and click to edit</Header.Subheader>
+
        </Header.Content>
+
      </Header>
      <br />
      <br />
