@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 import axios from 'axios'
 
 class SideDrawer extends Component {
+  async logout ()  {
+    const response = await axios({url:'http://127.0.0.1:8000/users/logoutview/', method:'get' , withCredentials:true}).then(response=>{return response})
+      console.log(response.data);
+    }
    
     render() {
         return (
@@ -24,9 +28,9 @@ class SideDrawer extends Component {
                 <Link to={"/Profile"}>
                 <SidebarRow title = "Profile"/>
                 </Link> 
-                <Link to={"/"}>      
+                <a href = "/" onClick={this.logout}>      
                 <SidebarRow title = "Logout" />
-                </Link> 
+                </a> 
                 
             </div>
         )

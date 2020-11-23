@@ -19,7 +19,7 @@ export default class Designers extends React.Component{
 			isLoggedIn: false,
 			userId:""
 		}
-		this.totfol = this.totfol.bind(this);
+		
 	}
 	
 
@@ -38,14 +38,17 @@ export default class Designers extends React.Component{
 	    const response = await axios({url:`http://127.0.0.1:8000/users/`,method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/"})
 	    const json = await response.data;
 	    this.setState({persons:json.results});
+		let list=[];        
+        for(let follower in response.data.results)
+        {
+        const fdata = await axios({url:"http://127.0.0.1:8000/follow/userfollow/" , method:'GET' ,params:{Id : response.data.results[follower].id} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+        list[response.data.results[follower].id] = fdata.data;
+        }
+        this.setState({follows : list})
+
 	}
 
-	async totfol(el){
-		const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:el} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
-	     console.log(followsdata);
-	     const followjson = await followsdata.data;
-	     this.setState({follows:followjson})
-	}
+	
 
 	renderlist =person => {
 		const {persons,search}=this.state;
@@ -62,11 +65,10 @@ export default class Designers extends React.Component{
 				meta={person.workExperience+" yrs"}
 				description={person.about}
 				extra={
-					<a>
+					<div>
 				       <i class="users icon"></i>
-				       {()=>this.totfol(person.id)}
-				       {this.state.follows.length}
-				    </a>
+				       {this.state.follows[person.id]}
+					   </div>
 				}
 			/>
 		</Link></div>

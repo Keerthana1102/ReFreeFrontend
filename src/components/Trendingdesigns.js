@@ -17,7 +17,7 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
      
     constructor(props) {
         super(props);
-        this.state = {projects: [],userlist : {}, userId : ""}                 
+        this.state = {projects: [],userlist : {}, userId : "",likeslist:[]}                 
        
     }
         async componentDidMount()
@@ -43,9 +43,15 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
           acc[value.id] = value.username
           return acc
         }, {})})})
+        let likelist=[];        
+        for(let project in response.data.results)
+        {
+        const likesdata = await axios({url:"http://127.0.0.1:8000/like/projectlikes/" , method:'GET' ,params:{projectId : response.data.results[project].id} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+        likelist[response.data.results[project].id] = likesdata.data;
+        }
+        console.log(likelist);
+        this.setState({likeslist : likelist})
         
-        
-       
       }
       renderproject = project => {
         return (
@@ -66,7 +72,7 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
                <p></p>
       
           <i class="like icon"></i>
-          {project.likes}
+          {this.state.likeslist[project.id]}
                <p></p>
           {(new Date(project.creation).getDate() + "-"+ parseInt(new Date(project.creation).getMonth()+1) +"-"+new Date(project.creation).getFullYear())}
           </div>
