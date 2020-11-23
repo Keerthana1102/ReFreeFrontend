@@ -1,6 +1,7 @@
 import React , { Component } from 'react';
 import { Icon, Button, Segment, Grid, Form, Message, Item, Header } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import ImageUploader from 'react-images-upload';
 import axios from 'axios';
 
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
@@ -21,8 +22,9 @@ class Signup extends Component
       lastname : "",
       phone_number : "",
       error : false,
-      isError : false,
+      isError : false,profile_photo:[]
     }
+    this.onImgChange=this.onImgChange.bind(this);
   }
   handleUsernameChange = event => {
     this.setState({ username : event.target.value })
@@ -45,6 +47,10 @@ class Signup extends Component
   handlePhoneChange = event => {
     this.setState({ phone_number : event.target.value })
   }
+  onImgChange (Imgs,ImgUrl) { 
+    this.setState({ profile_photo: this.state.profile_photo.concat(Imgs) }); 
+    console.log(this.state.profile_photo[this.state.profile_photo.length-1])
+  }; 
 
   handleSubmit = event => {
     event.preventDefault()
@@ -56,17 +62,39 @@ class Signup extends Component
     { 
       this.setState({error:true});
     }
-    else if((this.state.username === "") || (this.state.password === "") || (this.state.firstname === "") || (this.state.lastname === "") || (this.state.phone_number === "") || (this.state.email === ""))
+    else if((this.state.username === "") || (this.state.password === "") || (this.state.firstname === "") || (this.state.lastname === "") || (this.state.phone_number === "") || (this.state.email === "")||this.state.profile_photo.length==0)
     {
       this.setState({isError:true});
     }
     else
     {
-      let formData = { username : this.state.username , firstname:this.state.firstname , lastname:this.state.lastname , email:this.state.email , phone_number:this.state.phone_number , password : this.state.password }
-    console.log(formData);
-          axios({ url:'http://127.0.0.1:8000/users/signupview/' , method:'POST' , data:formData , withCredentials:true })
-          .then(response=>{console.log(response);})
-          .catch(error=>{console.log(error);})
+      const formData=new FormData();
+      formData.append(
+        "username",this.state.username
+      );
+      formData.append(
+        "firstname",this.state.firstname 
+      );
+      formData.append(
+        "lastname", this.state.lastname
+      );
+      formData.append(
+        "email",this.state.email 
+      );
+      formData.append(
+       "phone_number", this.state.phone_number
+      );
+      formData.append(
+       "password", this.state.password
+      );
+      console.log(formData);
+      formData.append(
+        "profile_photo",this.state.profile_photo[this.state.profile_photo.length-1]
+      );
+      console.log(formData);
+        axios({ url:'http://127.0.0.1:8000/users/signupview/' , method:'POST' , data:formData , withCredentials:true })
+        .then(response=>{console.log(response);})
+        .catch(error=>{console.log(error);})
     }
   }
 
@@ -109,6 +137,18 @@ class Signup extends Component
                     <Form.Field required>
                       <label>Last Name</label>
                       <input type="text" value={this.state.lastname} onChange={this.handleLastnameChange}/>
+                    </Form.Field>
+                    <Form.Field required >
+                      <label >Profile photo</label>
+                      <ImageUploader
+                          withIcon={true}
+                          buttonText="Upload Image"
+                          onChange={this.onImgChange}
+                          maxFileSize={12000000000}
+                          label={"Max Img size:12gb, accepted types .jpg, .png, .gif . After uploading preview can be removed by tapping the cross"}
+                          withPreview={true}
+                          singleImage={true}
+                        />
                     </Form.Field>
                     <Form.Field required>
                       <label>Email ID</label>
