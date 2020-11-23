@@ -465,6 +465,7 @@ linkSubmit = async(event) => {
      <br />
      <Card.Group>
        {this.state.projects.map(el => (
+        <div style={{padding:10}} >
          <Link to = {{pathname : "/Projectpage",project : el.id}}>
        <Card>
          <Card.Content><Image floated='right' size='mini' src= {el.display} /> <Card.Header>{el.name}</Card.Header>
@@ -473,7 +474,7 @@ linkSubmit = async(event) => {
  </Card.Description>
          </Card.Content>
   </Card>
-       </Link>
+       </Link></div>
        ))}
      </Card.Group>
      </Grid.Column>
