@@ -8,7 +8,7 @@ import "./Trendingdesigns.css";
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
-export default class Designers extends React.Component{
+export default class Unloggedesigner extends React.Component{
 	constructor (){
 		super();
 		this.state = {
@@ -20,32 +20,14 @@ export default class Designers extends React.Component{
 			userId:"",
 			workExperience:4,
 		}
-		
+		this.totfol = this.totfol.bind(this);
 	}
 	
 
 	async componentDidMount(){
-		const re = await axios({url:'http://127.0.0.1:8000/users/currentuser', method:'get' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/error"})
-	    console.log(re);
-	    const js = await re.data;
-	    this.setState({userId:js.userId});
-	    console.log(this.state.userId);
-	    if(this.state.userId==0) {
-	        window.location.href="http://127.0.0.1:3000/";
-	    }
-	    else {
-	       this.setState({isLoggedIn:true});
-	    }
 	    const response = await axios({url:`http://127.0.0.1:8000/users/`,method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/"})
 	    const json = await response.data;
 	    this.setState({persons:json.results});
-		let list=[];        
-        for(let follower in response.data.results)
-        {
-        const fdata = await axios({url:"http://127.0.0.1:8000/follow/userfollow/" , method:'GET' ,params:{Id : response.data.results[follower].id} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
-        list[response.data.results[follower].id] = fdata.data;
-        }
-        this.setState({follows : list})
 	}
 
     handleWorkexperienceChange=(event , data) => {
@@ -53,12 +35,14 @@ export default class Designers extends React.Component{
     this.setState({workExperience:opt});
 	    console.log(this.state.workExperience)
   }
-	
 
 
-	
-
-	
+	async totfol(el){
+		const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:el} }).then(response=>{return response}).catch(error=>{console.log(error)})
+	     console.log(followsdata);
+	     const followjson = await followsdata.data;
+	     this.setState({follows:followjson})
+	}
 
 	renderlist =person => {
 		const {persons,search}=this.state;
@@ -69,17 +53,18 @@ export default class Designers extends React.Component{
 	    }
         return(
 		<div className = "indproject">
-		<Link to = {{pathname : "/individualuser" , state:{lookingAt:person.id} }}>
+		<Link to = {{pathname : "/Unloggeduser" , state:{lookingAt:person.id} }}>
         	<Card
 				image={person.profile_photo}
 				header={person.username}
 				meta={person.workExperience+" yrs"}
 				description={person.about}
 				extra={
-					<div>
+					<a>
 				       <i class="users icon"></i>
-				       {this.state.follows[person.id]}
-					   </div>
+				       {()=>this.totfol(person.id)}
+				       {this.state.follows.length}
+				    </a>
 				}
 			/>
 		</Link></div>
@@ -96,9 +81,7 @@ export default class Designers extends React.Component{
 	
 	  };
 
-	render()
-	{
-
+	render(){
 		const workOptions = [
     {
       key: '0',
@@ -180,3 +163,4 @@ export default class Designers extends React.Component{
 		)
 	}
 }
+

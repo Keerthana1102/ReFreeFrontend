@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
-class Individualuser extends Component
+class Unloggeduser extends Component
 {
   constructor(props)
   {
@@ -36,24 +36,11 @@ class Individualuser extends Component
       isfollowing : false,
       followId : 0,
     }
-	  this.followUser = this.followUser.bind(this);
-	  this.unfollowUser = this.unfollowUser.bind(this);
    }
   async componentDidMount()
   {
-    const re = await axios({url:'http://127.0.0.1:8000/users/currentuser', method:'get' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/error"})
-    console.log(re);
-     const js = await re.data;
-     this.setState({userId:js.userId});
-     console.log(this.state.userId);
-     if(this.state.userId==0) {
-         window.location.href="http://127.0.0.1:3000/";
-     }
-     else {
-       this.setState({isLoggedIn:true});
-     }
 	  console.log(this.props)
-     const response = await axios({url:`http://127.0.0.1:8000/users/${this.props.location.state.lookingAt}`,method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/error"})
+     const response = await axios({url:`http://127.0.0.1:8000/users/${this.props.location.state.lookingAt}`,method:'GET' }).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/error"})
      const json = await response.data;
      this.setState({data:json});
      console.log(json);
@@ -65,85 +52,24 @@ class Individualuser extends Component
      this.setState({workExperience:this.state.data.workExperience})
      this.setState({about:this.state.data.about})
 
-     const projectdata = await axios({url:'http://127.0.0.1:8000/projects/projectsuser' , method:'GET', params:{userId:this.props.location.state.lookingAt} , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location="http://127.0.0.1:3000/error"})
+     const projectdata = await axios({url:'http://127.0.0.1:8000/projects/projectsuser' , method:'GET', params:{userId:this.props.location.state.lookingAt} }).then(response=>{return response}).catch(error=>{window.location="http://127.0.0.1:3000/error"})
      console.log(projectdata);
      const projectjson = await projectdata.data;
      this.setState({projects:projectjson})
-     const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , params:{userId:this.props.location.state.lookingAt} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     const companydata = await axios({url:'http://127.0.0.1:8000/companies/usercompanies' , method:'GET' , params:{userId:this.props.location.state.lookingAt}}).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(companydata);
      const companyjson = await companydata.data;
      this.setState({companies:companyjson})
 
 
-     const linkdata = await axios({url:'http://127.0.0.1:8000/socialLinks/userlinks' , method:'GET' , params:{userId:this.props.location.state.lookingAt} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+     const linkdata = await axios({url:'http://127.0.0.1:8000/socialLinks/userlinks' , method:'GET' , params:{userId:this.props.location.state.lookingAt} }).then(response=>{return response}).catch(error=>{console.log(error)})
      console.log(linkdata);
      const linkjson = await linkdata.data;
      this.setState({links:linkjson})
 
-     const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
-     console.log(followsdata);
-     const followsjson = await followsdata.data;
-     this.setState({follows:followsjson})
-	this.setState({isfollowing:false})
-     for(let user in this.state.follows)
-     {
-	     
-	     console.log(this.props.location.state.lookingAt)
-	     console.log(this.state.follows[user].following_user_id)
-	     console.log(this.state.follows[user].following_user_id==this.props.location.state.lookingAt)
-	     if(this.state.follows[user].following_user_id == this.props.location.state.lookingAt)
-	     {
-		     this.setState({isfollowing:true})
-		     this.setState({followId : this.state.follows[user].id})
-	     }
-      }
-	     console.log(this.state.followId)
-      console.log(this.state.isfollowing)
   }
 
-async followUser(data) {
-  const following_user_id = data;
-   console.log(following_user_id);
-  let formData = { user_id:this.state.userId ,following_user_id: this.props.location.state.lookingAt}
-    const res = await axios({url:'http://127.0.0.1:8000/follow/' ,method:'POST', data:formData , withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
 
-  const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
-     console.log(followsdata);
-     const followsjson = await followsdata.data;
-     this.setState({follows:followsjson})
-	this.setState({isfollowing:false})
-	for(let user in this.state.follows)
-     {
-             if(this.state.follows[user].following_user_id == this.props.location.state.lookingAt)
-             {
-                     this.setState({isfollowing:true})
-                     this.setState({followId:this.state.follows[user].id})
-             }
-      }
-      console.log(this.state.isfollowing)
-}
-
-async unfollowUser(data) {
-  const following_user_id = data;
-   console.log(following_user_id);
-    const res = await axios({url:`http://127.0.0.1:8000/follow/${this.state.followId}` ,method:'DELETE',  withCredentials:true} ).then(response=>{return response}).catch(error=>{console.log(error)})
-
-  const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:this.state.userId} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
-     console.log(followsdata);
-     const followsjson = await followsdata.data;
-     this.setState({follows:followsjson})
-        this.setState({isfollowing:false})
-	     for(let user in this.state.follows)
-     {
-             if(this.state.follows[user].following_user_id == this.props.location.state.lookingAt)
-             {
-                     this.setState({isfollowing:true})
-                     this.setState({followId:this.state.follows[user].id})
-             }
-      }
-      console.log(this.state.isfollowing)
-	    console.log(this.state.profile_photo)
-}
 drawerToggleClickHandler = () => {
   this.setState((prevState)=>{
     return {SideDrawerOpen: !prevState.SideDrawerOpen};
@@ -198,9 +124,7 @@ drawerToggleClickHandler = () => {
             <Header.Subheader>View user profile</Header.Subheader>
             </Header.Content>
          </Header>
-         <br/>
-	    {!this.state.isfollowing && <Button color='green' onClick={()=>this.followUser(this.state.userId)} >Follow</Button> }
-            {this.state.isfollowing && <Button color='red' onClick={()=>this.unfollowUser(this.state.userId)} >Unfollow</Button> } 
+         <br/> 
 	 <Form>
 	   <Divider horizontal>
              <Header as='h4'>
@@ -336,7 +260,7 @@ drawerToggleClickHandler = () => {
      <br />
      <Card.Group>
        {this.state.projects.map(el => (<div style={{padding:10}} >
-       <Link to = {{pathname : "/Projectpage",project : el.id}}>
+       <Link to = {{pathname : "/Unloggedproject",project : el.id}}>
        <Card>
          <Card.Content>  <Card.Header>{el.name}</Card.Header>
          <Card.Meta>Project Number {el.id}</Card.Meta>
@@ -379,5 +303,5 @@ EditorPreview.defaultProps = {
 EditorPreview.propTypes = {
     data: PropTypes.string
 };
-export default Individualuser;
+export default Unloggeduser;
  
