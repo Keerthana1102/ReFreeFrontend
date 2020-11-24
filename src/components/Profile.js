@@ -118,7 +118,7 @@ class Profile extends Component
     console.log(project.display);
         return (
             <div className = "indproject">
-              <Link to = {{pathname : "/Projectpage",project : project.id}}>
+              <Link to = {{pathname : "/editproject",project : project.id}}>
           <Card 
         header={<CKEditor data={project.name} type = 'inline' readOnly={true} />}
         description={<CKEditor data={project.description} type="inline"  readOnly={true} />}
