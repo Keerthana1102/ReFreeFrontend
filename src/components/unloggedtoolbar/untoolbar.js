@@ -14,7 +14,7 @@ const toolbar=props=>{
 	            <Grid.Column width={10}>
 	              <h2>ReFree</h2>
 	            </Grid.Column>
-                <Link to = "/" style={{ marginRight: '20px', textDecoration: 'none' , color : "white"}}>
+                <Link to = "/Landing" style={{ marginRight: '20px', textDecoration: 'none' , color : "white"}}>
                 <Grid.Column width={2}>
                 <h2 >Trending</h2>
                 </Grid.Column>

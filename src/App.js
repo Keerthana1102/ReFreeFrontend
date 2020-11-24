@@ -42,7 +42,7 @@ function App() {
 		<Route path="/Projectpage" component = {Projectpage}/>
 		<Route path = "/Newcomponent" component = {Newcomponent} />
 	  	<Route path="/Favourites" component={Follow} />
-	  	<Route path="/" component={Landingpage} />
+	  	<Route path="/Landing" component={Landingpage} />
 		<Route path="/Unloggedproject" component={Unloggedproject} />
 	  	<Route path="/Unloggeduser" component={Unloggeduser} />
 	  	<Route path="/unloggeddesigner" component={Unloggeddesigner} />

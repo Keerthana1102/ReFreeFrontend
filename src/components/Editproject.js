@@ -32,6 +32,7 @@ export default class Editproject extends React.Component{
 		this.onImgChange=this.onImgChange.bind(this)
 		this.onSubmit = this.onSubmit.bind(this);
 		this.onSubmitdesigns = this.onSubmitdesigns.bind(this);
+		this.onDone = this.onDone.bind(this);
 	}
 	async componentDidMount(){
 		const re = await axios({url:'http://127.0.0.1:8000/users/currentuser', method:'get' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/error"})
@@ -97,13 +98,16 @@ export default class Editproject extends React.Component{
 	}
 	
 	onImgChange (Imgs,ImgUrl) { 
-		this.setState({ finaldesigns: this.state.extra.concat(Imgs) }); 
-		console.log(this.state.finaldesigns[this.state.finaldesigns.length-1])
+		this.setState({ extra: this.state.extra.concat(Imgs) }); 
+		console.log(this.state.extra[this.state.extra.length-1])
 	}; 
 
 	onSubmit = async(event) => { 
 		event.preventDefault()
 		const formData=new FormData();
+		formData.append(
+			"user",this.state.userId
+		);
 		formData.append(
 			"name",this.state.name
 		);
@@ -111,21 +115,27 @@ export default class Editproject extends React.Component{
 			"description",this.state.description
 		);
 		console.log(formData); 
-		await axios({ url:`http://127.0.0.1:8000/projects/${this.state.proId}` , method:'PUT' , data:formData , withCredentials:true })
+		await axios({ url:`http://127.0.0.1:8000/projects/${this.state.proId}/` , method:'PUT' , data:formData , withCredentials:true })
           .then(response=>{console.log(response);})
           .catch(error=>{console.log(error);})
 	}; 
+	onDone = async(event)=>{
+		window.location.href = "/Profile"
+	}
 
 	onSubmitdesigns=async(event)=>{
 		const formData=new FormData();
-		if(this.state.extra.length!=null) {
+		console.log(this.state.extra.length);
+		if(this.state.extra.length!=0) {
 			formData.append(
 				"finaldesign",this.state.extra[this.state.extra.length-1]
 			);
 			formData.append("project",this.state.proId);
-			await axios({ url:'http://127.0.0.1:8000/finalDesign' , method:'POST' , data:formData , withCredentials:true })
+			console.log(formData);
+			await axios({ url:'http://127.0.0.1:8000/finalDesign/' , method:'POST' , data:formData , withCredentials:true })
 	          .then(response=>{console.log(response);})
-	          .catch(error=>{console.log(error);})
+			  .catch(error=>{console.log(error);})
+			  
 		}
 	}
 
@@ -139,7 +149,7 @@ export default class Editproject extends React.Component{
 			<Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
             { sideDrawer }
 
-            <div style={{padding:'2%'}}>
+            <div style={{padding:'4%'}}>
 		   	  <div style={{margin:'auto' , width:'100%' ,textAlign:'center'}}>
 		   	  <h1 style={{textAlign:'center'}}>
 		   	   <input type="text" value={this.state.name}  onChange={event => this.onnameChange(event)} />
@@ -192,20 +202,34 @@ export default class Editproject extends React.Component{
 	        		singleImage={true}
 	        	/>
 	        	<br/>
-	        	<Form onSubmitdesigns={event=> this.onSubmitdesigns(event)}>
+	        	{/*<Form onSubmitdesigns={event=> this.onSubmitdesigns(event)}>
 				  	<Form.Field>
 				  	    <div style={{textAlign:'center'}}>
 			              <Button color='blue' type='submit'>Submit designs</Button>
 			            </div>
 			        </Form.Field> 
-			    </Form>
+					</Form>*/}
 			    <br/>
 	        	<Form>
 				  	<Form.Field>
+
 				  		<Link to = {{pathname : "/profile"}}>
 				  	    <div style={{textAlign:'center'}}>
-			              <Button color='blue' type='submit'>Done</Button>
+			              <button class="ui primary button" 
+							  style={{ margin : 'auto'}} 
+							  onClick={event=> this.onSubmitdesigns(event)}>
+							  Submit
+							</button>
 			            </div></Link>
+						<br/>
+
+				  	    <div style={{textAlign:'center'}}>
+			              <button class="ui primary button" 
+							  style={{ margin : 'auto'}} 
+							  onClick={event=> this.onDone(event)}>
+							  Done
+							</button>
+			            </div>
 			        </Form.Field> 
 			    </Form>
 		    </div>

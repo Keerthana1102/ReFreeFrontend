@@ -28,7 +28,7 @@ class SideDrawer extends Component {
                 <Link to={"/Profile"}>
                 <SidebarRow title = "Profile"/>
                 </Link> 
-                <a href = "/" onClick={this.logout}>      
+                <a href = "/Landing" onClick={this.logout}>      
                 <SidebarRow title = "Logout" />
                 </a> 
                 

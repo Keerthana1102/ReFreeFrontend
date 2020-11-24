@@ -153,8 +153,12 @@ async unLikeProject(data) {
         {this.state.components.map((cmp) =>
         cmp.upload === null ? <CKEditor data={cmp.description} type="inline" readOnly={true} /> :
         <div className = "component">
-            <img src = {cmp.upload} ></img>
+          <div className = "image" >
+            <img src = {cmp.upload}  ></img>
+            </div>
+            <div className = "description">
             <CKEditor data={cmp.description} type="inline" readOnly={true} />
+            </div>
             </div>
         )}
         </div>

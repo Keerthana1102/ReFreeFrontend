@@ -2,10 +2,16 @@
     display: flex;
     
 }
+.image{
+    flex: 0.5;
+}
+.description{
+    flex: 0.5;
+}
 img {
-    flex: 0.4;
+    flex: 0.6;
     height: 400px;
-    width: 100px;
+    width: 600px;
     margin-bottom: 20px;
     margin-right: 50px;
 }
