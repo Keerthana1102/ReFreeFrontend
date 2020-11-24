@@ -13,8 +13,8 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 class App extends Component { 
 
-	constructor(){
-		super()
+	constructor(props){
+		super(props)
 		this.state = { 
 			upload: [],
 			description: "",
@@ -73,9 +73,10 @@ class App extends Component {
 			"project",this.state.proId
 		);
 		console.log(formData); 
-		axios({ url:'http://127.0.0.1:8000/component/' , method:'POST' , data:formData , withCredentials:true })
+		await axios({ url:'http://127.0.0.1:8000/component/' , method:'POST' , data:formData , withCredentials:true })
           .then(response=>{console.log(response);})
-          .catch(error=>{console.log(error);})
+		  .catch(error=>{console.log(error);})
+		  window.location.href = "/Profile"
 	}; 
 
 	drawerToggleClickHandler = () => {
@@ -124,15 +125,15 @@ class App extends Component {
 						    <CKEditor data={this.state.description} type="inline"  onChange={this.onEditorChange}/>
 						    <textarea style={{display:'none'}} value={this.state.description}  onChange={this.onDesChange}/>						    
 						  </div>
-						  	<Form onSubmit={event=> this.onSubmit(event)}>
-						  	<Form.Field>
-						  	    <div style={{textAlign:'center'}}>
-					              <Link to = {{pathname : "/Editproject",project : this.state.proId}}>
-		       						<Button color='blue' type='submit'>Submit</Button>
-					              </Link>
-					            </div>
-					         </Form.Field> </Form>
-						 	
+
+						  	
+		       				 <button class="ui primary button" 
+							  style={{ marginLeft:'47%'}} 
+							  onClick={event=> this.onSubmit(event)}>
+							  Submit
+							</button>
+							
+
 						</div>
 					</Grid.Column>
 				</Grid.Row>
