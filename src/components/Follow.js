@@ -73,12 +73,24 @@ async componentDidMount()
       }
           console.log(newarr);
       this.setState({followers:newarr})
-
   }
+  drawerToggleClickHandler = () => {
+        this.setState((prevState)=>{
+          return {SideDrawerOpen: !prevState.SideDrawerOpen};
+        });   
+    
+      }; 
 
 render()
 {
-	return(
+  let sideDrawer;
+        if(this.state.SideDrawerOpen){
+          sideDrawer = <SideDrawer />;
+        }
+        return (
+          <div>
+          <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
+          {sideDrawer }
 	<div style={{padding:'2%'}}>
 		 <Header as='h2'>
        <Icon name='user' />
@@ -124,7 +136,7 @@ render()
 	       </div>
        ))}
      </Card.Group>
-
+</div>
 	</div>
 	);
 }

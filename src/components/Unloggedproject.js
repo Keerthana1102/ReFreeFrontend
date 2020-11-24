@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import './Projectpage.css'
-import Toolbar from './Toolbar/Toolbar';
-import SideDrawer from './SideDrawer/SideDrawer';
+import UnToolbar from './unloggedtoolbar/untoolbar';
 import CKEditor from 'ckeditor4-react';
 import PropTypes from 'prop-types';
 import {Button} from 'semantic-ui-react';
@@ -49,24 +48,16 @@ const pdata = await projectdata.data;
 
 
   }
-  drawerToggleClickHandler = () => {
-    this.setState((prevState)=>{
-      return {SideDrawerOpen: !prevState.SideDrawerOpen};
-    });   
-  }
+  
 	
 
 
 render() {
-    let sideDrawer;
-    if(this.state.SideDrawerOpen){
-      sideDrawer = <SideDrawer />;
-    }
+    
     
     return (
       <div>
-      <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
-      {sideDrawer }
+      <UnToolbar  />
       <br/>
         <div style={{padding:'5%'}}>
 	    <div style={{margin:'auto' , width:'100%' ,textAlign:'center'}}><h1 style={{textAlign:'center'}}>{this.state.data.name}</h1></div>

@@ -19,7 +19,8 @@ class App extends Component {
 			upload: [],
 			description: "",
 			isLoggedIn: false,
-			userId: ""
+			userId: "",
+			proId:""
 		};
 		this.onImgChange=this.onImgChange.bind(this)
 		this.onEditorChange=this.onEditorChange.bind(this)
@@ -38,6 +39,7 @@ class App extends Component {
 	    else {
 	       this.setState({isLoggedIn:true});
 	    }
+	    this.setState({proId:this.props.location.project})
 	}
 
 	onImgChange (Imgs,ImgUrl) { 
@@ -68,7 +70,7 @@ class App extends Component {
 			"description",this.state.description
 		);
 		formData.append(
-			"project",1
+			"project",this.state.proId
 		);
 		console.log(formData); 
 		axios({ url:'http://127.0.0.1:8000/component/' , method:'POST' , data:formData , withCredentials:true })
@@ -120,13 +122,17 @@ class App extends Component {
 						  <div class="field">
 						    <label>Description</label>
 						    <CKEditor data={this.state.description} type="inline"  onChange={this.onEditorChange}/>
-						    <textarea style={{display:'none'}} value={this.state.description}  readOnly onChange={this.onDesChange}/>						    
+						    <textarea style={{display:'none'}} value={this.state.description}  onChange={this.onDesChange}/>						    
 						  </div>
-						 	<button class="ui primary button" 
-							  style={{ marginLeft:'47%'}} 
-							  onClick={event=> this.onSubmit(event)}>
-							  Submit
-							</button>
+						  	<Form onSubmit={event=> this.onSubmit(event)}>
+						  	<Form.Field>
+						  	    <div style={{textAlign:'center'}}>
+					              <Link to = {{pathname : "/Editproject",project : this.state.proId}}>
+		       						<Button color='blue' type='submit'>Submit</Button>
+					              </Link>
+					            </div>
+					         </Form.Field> </Form>
+						 	
 						</div>
 					</Grid.Column>
 				</Grid.Row>

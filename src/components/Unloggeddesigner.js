@@ -1,8 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import {Dropdown, Label, Icon,  Card, Grid, Search, Header,Input} from 'semantic-ui-react'
-import Toolbar from './Toolbar/Toolbar';
-import SideDrawer from './SideDrawer/SideDrawer';
+import UnToolbar from './unloggedtoolbar/untoolbar';
 import { Router, Link } from 'react-router-dom';
 import "./Trendingdesigns.css";
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
@@ -20,7 +19,7 @@ export default class Unloggedesigner extends React.Component{
 			userId:"",
 			workExperience:4,
 		}
-		this.totfol = this.totfol.bind(this);
+
 	}
 	
 
@@ -28,6 +27,13 @@ export default class Unloggedesigner extends React.Component{
 	    const response = await axios({url:`http://127.0.0.1:8000/users/`,method:'GET' , withCredentials:true}).then(response=>{return response}).catch(error=>{window.location.href="http://127.0.0.1:3000/"})
 	    const json = await response.data;
 	    this.setState({persons:json.results});
+		let list=[];        
+        for(let follower in response.data.results)
+        {
+        const fdata = await axios({url:"http://127.0.0.1:8000/follow/userfollow/" , method:'GET' ,params:{Id : response.data.results[follower].id} ,withCredentials:true}).then(response=>{return response}).catch(error=>{console.log(error)})
+        list[response.data.results[follower].id] = fdata.data;
+        }
+        this.setState({follows : list})
 	}
 
     handleWorkexperienceChange=(event , data) => {
@@ -37,12 +43,7 @@ export default class Unloggedesigner extends React.Component{
   }
 
 
-	async totfol(el){
-		const followsdata = await axios({url:'http://127.0.0.1:8000/follow/userfollows' , method:'GET' , params:{userId:el} }).then(response=>{return response}).catch(error=>{console.log(error)})
-	     console.log(followsdata);
-	     const followjson = await followsdata.data;
-	     this.setState({follows:followjson})
-	}
+	
 
 	renderlist =person => {
 		const {persons,search}=this.state;
@@ -62,8 +63,7 @@ export default class Unloggedesigner extends React.Component{
 				extra={
 					<a>
 				       <i class="users icon"></i>
-				       {()=>this.totfol(person.id)}
-				       {this.state.follows.length}
+				       {this.state.follows[person.id]}
 				    </a>
 				}
 			/>
@@ -74,12 +74,7 @@ export default class Unloggedesigner extends React.Component{
 	onChange=e=>{
 		this.setState({search:e.target.value});
 	};
-	drawerToggleClickHandler = () => {
-		this.setState((prevState)=>{
-		  return {SideDrawerOpen: !prevState.SideDrawerOpen};
-		});   
 	
-	  };
 
 	render(){
 		const workOptions = [
@@ -109,14 +104,10 @@ export default class Unloggedesigner extends React.Component{
 	value:'4',
      },]
 		const {persons,search}=this.state;
-		let sideDrawer;
-		if(this.state.SideDrawerOpen){
-			sideDrawer = <SideDrawer />;
-		}
+	
 		return(
 			<div>
-			<Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
-            { sideDrawer }
+			<UnToolbar  />
 			<Grid padded>
 	          <Grid.Row width = {4}>
 	          	<div style={{ paddingLeft:'1%' }}>

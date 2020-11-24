@@ -1,12 +1,10 @@
 import React , { Component } from 'react';
 import { Icon,Card, Grid,Image, Header, Button,List, Divider, Segment, Form, Message, Label, Dropdown} from 'semantic-ui-react';
 import { Link, Redirect } from 'react-router-dom';
-import Toolbar from './Toolbar/Toolbar';
-import SideDrawer from './SideDrawer/SideDrawer';
+import UnToolbar from './unloggedtoolbar/untoolbar';
 import axios from 'axios';
 import CKEditor from 'ckeditor4-react';
 import PropTypes from 'prop-types';
-
 axios.defaults.xsrfCookieName = 'frontend_csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
@@ -103,16 +101,12 @@ drawerToggleClickHandler = () => {
       value: '3',
     },
     ]
-    let sideDrawer;
-        if(this.state.SideDrawerOpen){
-          sideDrawer = <SideDrawer />;
-        }
+    
 
           
     return(
       <div>
-          <Toolbar drawerClickHandler={this.drawerToggleClickHandler} />
-          {sideDrawer } 
+          <UnToolbar  />
         <br/>
         <div style={{margin:'auto' , paddingLeft:'10%' , paddingRight:'10%'}}>
           <Grid stackable columns={2} divided>

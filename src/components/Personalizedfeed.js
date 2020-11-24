@@ -63,6 +63,38 @@ class Personalizedfeed extends Component
     });   
   
   };
+   renderproject = project => {
+        return (
+            <div className = "indproject">
+              <Link to = {{pathname : "/Projectpage",project : project.id}}>
+          <Card 
+        image={project.display}
+        header={<CKEditor data={project.name} type = 'inline' readOnly={true} />}
+        description={<CKEditor data={project.description} type="inline"  readOnly={true} />}
+        extra={
+          <div>
+          <a>
+            <Link to = {{pathname : "/individualuser" , state:{lookingAt:project.user} }}>
+               <i class="users icon"></i>
+               {this.state.userlist[project.user]}
+               </Link>
+               </a>
+               <p></p>
+      
+          <i class="like icon"></i>
+          {this.state.likeslist[project.id]}
+               <p></p>
+          {(new Date(project.creation).getDate() + "-"+ parseInt(new Date(project.creation).getMonth()+1) +"-"+new Date(project.creation).getFullYear())}
+          </div>
+        }
+        />
+        </Link>
+        </div>
+      
+      
+      
+      )
+      }
   
   render()
   {
@@ -86,7 +118,6 @@ class Personalizedfeed extends Component
 	       <div style={{padding:'2%'}}>
        <Link to = {{pathname : "/Projectpage",project : el.id}}>
 	    <Card>
-        <Image src = {el.project} />
 	       <Card.Content>{/*<Image floated='right' size='mini' src= {el.project} />*/}<Card.Header>{el.name}</Card.Header>
          <Card.Meta>Project Number {el.id}</Card.Meta>
          <Card.Description> <CKEditor data={el.description} type="inline" readOnly={true} />
